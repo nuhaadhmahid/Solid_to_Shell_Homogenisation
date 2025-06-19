@@ -11,6 +11,7 @@ from typing import Any, Callable
 
 import numpy as np
 from itertools import product
+import functools
 import gmsh # ignore type
 
 class Utils:
@@ -19,65 +20,53 @@ class Utils:
     """
 
     @staticmethod
-    def logger(function: Callable, path: str = "logger"):
+    def logger(func: Callable, path: str = "logger"):
         """
-        A decorator that logs the start and end time of a function execution, along with its arguments.
-        It writes the function name, arguments, and the time taken to execute the function to a log file.
+        Decorator to log function execution time and arguments.
+        Shows progress if 'debugging' is True.
         """
 
         log_file = f"{path}.txt"
 
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            before = time.time()
+            start = time.time()
             with open(log_file, "a", encoding="utf-8") as log:
-                log.write(
-                    f"{time.strftime('%d/%m/%Y %H:%M')} :: Calling {function.__name__} with arguments: {args}, {kwargs}\n"
-                )
-            stop_progress = threading.Event()
+                log.write(f"{time.strftime('%d/%m/%Y %H:%M')} :: {func.__name__} args: {args}, {kwargs}\n")
+            stop_event = threading.Event() if globals().get("debugging", False) else None
+            thread = None
 
-            def show_progress():
-                while not stop_progress.is_set():
-                    elapsed = time.time() - before
-                    duration = time.strftime("%H:%M:%S", time.gmtime(elapsed))
-                    print(
-                        f"\rRunning {function.__name__}... elapsed: {duration}",
-                        end="",
-                        flush=True,
-                    )
-                    stop_progress.wait(1)
+            def progress():
+                while stop_event is not None and not stop_event.is_set():
+                    elapsed = time.time() - start
+                    print(f"\rRunning {func.__name__}... {time.strftime('%H:%M:%S', time.gmtime(elapsed))}", end="", flush=True)
+                    stop_event.wait(1)
 
-            progress_thread = threading.Thread(target=show_progress)
-            progress_thread.start()
+            if stop_event:
+                thread = threading.Thread(target=progress)
+                thread.start()
 
+            status = "Unknown"
             try:
-                value = function(*args, **kwargs)
-                after = time.time()
-                duration = time.strftime("%H:%M:%S", time.gmtime(after - before))
-                stop_progress.set()
-                progress_thread.join()
-                print(
-                    f"\rCompleted {function.__name__} in {duration} (hr:min:s)           "
-                )
-                with open(log_file, "a", encoding="utf-8") as log:
-                    log.write(
-                        f"{time.strftime('%d/%m/%Y %H:%M')} :: Completed {function.__name__} in {duration} (hr:min:s)\n"
-                    )
-                return value
-            except (OSError, ValueError, RuntimeError) as e:
-                after = time.time()
-                duration = time.strftime("%H:%M:%S", time.gmtime(after - before))
-                stop_progress.set()
-                progress_thread.join()
-                print(
-                    f"\rFailed {function.__name__} after {duration} (hr:min:s)           "
-                )
-                with open(log_file, "a", encoding="utf-8") as log:
-                    log.write(
-                        f"{time.strftime('%d/%m/%Y %H:%M')} :: Failed {function.__name__} after {duration} (hr:min:s) due to the error: {e}\n"
-                    )
-                    log.write(traceback.format_exc())
+                result = func(*args, **kwargs)
+                status = "Completed"
+            except Exception as e:
+                result = None
+                status = f"Failed: {e}"
+                if globals().get("debugging", False):
                     print(traceback.format_exc())
-                return None
+                with open(log_file, "a", encoding="utf-8") as log:
+                    log.write(traceback.format_exc())
+            finally:
+                if stop_event and thread:
+                    stop_event.set()
+                    thread.join()
+                duration = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
+                if globals().get("debugging", False):
+                    print(f"\r{status} {func.__name__} in {duration}           ")
+                with open(log_file, "a", encoding="utf-8") as log:
+                    log.write(f"{time.strftime('%d/%m/%Y %H:%M')} :: {status} {func.__name__} in {duration}\n")
+            return result
 
         return wrapper
 
@@ -1212,14 +1201,19 @@ class PanelModel:
         create_mesh()
 
         # Show the model
-        gmsh.fltk.run()
+        if gmsh_popup: 
+            gmsh.fltk.run()
 
         gmsh.finalize()
 
 
 if __name__ == "__main__":
 
+    global debugging, gmsh_popup
+    debugging : bool = True
+    gmsh_popup : bool = False
 
+    # input parameters for the panel model
     panel = IndependentPanelVariables(
         core_type="ZPR",
         mql = [True, True], 
@@ -1236,4 +1230,12 @@ if __name__ == "__main__":
         element_type="C3D8R", 
         mesh_density=Units.mm2m(1.0)
         )
+    
+    # create the panel model
+    Model = PanelModel(
+        variables=panel,
+        meshparams=mesh_params
+    )
+
+    print(Model)
 
