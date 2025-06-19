@@ -1,4 +1,4 @@
 .vscode
-.inp
-.txt
-.stl
+*.inp
+*.txt
+*.stl

@@ -1236,5 +1236,4 @@ if __name__ == "__main__":
         element_type="C3D8R", 
         mesh_density=Units.mm2m(1.0)
         )
-    print(PanelModel(variables=panel, meshparams=mesh_params))
 
