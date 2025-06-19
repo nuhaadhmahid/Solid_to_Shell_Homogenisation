@@ -2875,3 +2875,199 @@ meshparams :
     element_order : 1
     reduced_integration : True,), {}
 19/06/2025 15:08 :: Completed generate_mesh in 00:00:05 (hr:min:s)
+19/06/2025 15:30 :: Calling generate_mesh with arguments: (variables : 
+    _core_type : ZPR
+    _mql : [True, True]
+    _nl : [1, 1]
+    _theta : 1.0471975511965976
+    _chevron_wall_length : 0.0125
+    _chevron_thickness : 0.001
+    _chevron_separation : 0.006
+    _rib_thickness : 0.001
+    _core_thickness : 0.011
+    _facesheet_thickness : 0.0008
+derivedvariables : 
+    variables : 
+        _core_type : ZPR
+        _mql : [True, True]
+        _nl : [1, 1]
+        _theta : 1.0471975511965976
+        _chevron_wall_length : 0.0125
+        _chevron_thickness : 0.001
+        _chevron_separation : 0.006
+        _rib_thickness : 0.001
+        _core_thickness : 0.011
+        _facesheet_thickness : 0.0008
+    si : 0.004
+    so : 0.0031339745962155616
+    qlx : 0.006250000000000002
+    qly : 0.017959292143521044
+    qlz : 0.0063
+    core_area_ratio : 0.18245392665232596
+    coordinates : 
+      1 : [-0.00625  0.      -0.0063 ]
+      2 : [-0.00625    -0.01295929 -0.0063    ]
+      3 : [-0.00625    -0.01495929 -0.0063    ]
+      4 : [-0.00625    -0.01795929 -0.0063    ]
+      5 : [-0.00575  0.      -0.0063 ]
+      6 : [-0.00575    -0.01295929 -0.0063    ]
+      7 : [-0.00575    -0.01495929 -0.0063    ]
+      8 : [-0.00575    -0.01795929 -0.0063    ]
+      9 : [ 0.      0.     -0.0063]
+      10 : [ 0.     -0.003  -0.0063]
+      11 : [ 0.     -0.005  -0.0063]
+      12 : [ 0.         -0.01795929 -0.0063    ]
+    line_connectivity : 
+          [1, 5]
+          [2, 6]
+          [3, 7]
+          [4, 8]
+          [5, 9]
+          [6, 10]
+          [7, 11]
+          [8, 12]
+          [1, 2]
+          [5, 6]
+          [9, 10]
+          [2, 3]
+          [6, 7]
+          [10, 11]
+          [3, 4]
+          [7, 8]
+          [11, 12]
+    solid_surface_connectivity : 
+          [1, '1_5']
+          [1, '5_6']
+          [-1, '2_6']
+          [-1, '1_2']
+          [1, '2_6']
+          [1, '6_7']
+          [-1, '3_7']
+          [-1, '2_3']
+          [1, '3_7']
+          [1, '7_8']
+          [-1, '4_8']
+          [-1, '3_4']
+          [1, '6_10']
+          [1, '10_11']
+          [-1, '7_11']
+          [-1, '6_7']
+    facesheet_surfaces_connectivity : 
+          [1, '5_9']
+          [1, '9_10']
+          [-1, '6_10']
+          [-1, '5_6']
+          [1, '7_11']
+          [1, '11_12']
+          [-1, '8_12']
+          [-1, '7_8']
+    core_end_surface_box : 
+          [4, 4]
+          [5, 5]
+          [7, 7]
+          [10, 10]
+meshparams : 
+    _element_type : C3D8R
+    _mesh_density : 0.001
+    element_shape : BLOCK
+    element_order : 1
+    reduced_integration : True,), {}
+19/06/2025 15:30 :: Completed generate_mesh in 00:00:02 (hr:min:s)
+19/06/2025 15:31 :: Calling generate_mesh with arguments: (variables : 
+    _core_type : ZPR
+    _mql : [True, True]
+    _nl : [1, 1]
+    _theta : 1.0471975511965976
+    _chevron_wall_length : 0.0125
+    _chevron_thickness : 0.001
+    _chevron_separation : 0.006
+    _rib_thickness : 0.001
+    _core_thickness : 0.011
+    _facesheet_thickness : 0.0008
+derivedvariables : 
+    variables : 
+        _core_type : ZPR
+        _mql : [True, True]
+        _nl : [1, 1]
+        _theta : 1.0471975511965976
+        _chevron_wall_length : 0.0125
+        _chevron_thickness : 0.001
+        _chevron_separation : 0.006
+        _rib_thickness : 0.001
+        _core_thickness : 0.011
+        _facesheet_thickness : 0.0008
+    si : 0.004
+    so : 0.0031339745962155616
+    qlx : 0.006250000000000002
+    qly : 0.017959292143521044
+    qlz : 0.0063
+    core_area_ratio : 0.18245392665232596
+    coordinates : 
+      1 : [-0.00625  0.      -0.0063 ]
+      2 : [-0.00625    -0.01295929 -0.0063    ]
+      3 : [-0.00625    -0.01495929 -0.0063    ]
+      4 : [-0.00625    -0.01795929 -0.0063    ]
+      5 : [-0.00575  0.      -0.0063 ]
+      6 : [-0.00575    -0.01295929 -0.0063    ]
+      7 : [-0.00575    -0.01495929 -0.0063    ]
+      8 : [-0.00575    -0.01795929 -0.0063    ]
+      9 : [ 0.      0.     -0.0063]
+      10 : [ 0.     -0.003  -0.0063]
+      11 : [ 0.     -0.005  -0.0063]
+      12 : [ 0.         -0.01795929 -0.0063    ]
+    line_connectivity : 
+          [1, 5]
+          [2, 6]
+          [3, 7]
+          [4, 8]
+          [5, 9]
+          [6, 10]
+          [7, 11]
+          [8, 12]
+          [1, 2]
+          [5, 6]
+          [9, 10]
+          [2, 3]
+          [6, 7]
+          [10, 11]
+          [3, 4]
+          [7, 8]
+          [11, 12]
+    solid_surface_connectivity : 
+          [1, '1_5']
+          [1, '5_6']
+          [-1, '2_6']
+          [-1, '1_2']
+          [1, '2_6']
+          [1, '6_7']
+          [-1, '3_7']
+          [-1, '2_3']
+          [1, '3_7']
+          [1, '7_8']
+          [-1, '4_8']
+          [-1, '3_4']
+          [1, '6_10']
+          [1, '10_11']
+          [-1, '7_11']
+          [-1, '6_7']
+    facesheet_surfaces_connectivity : 
+          [1, '5_9']
+          [1, '9_10']
+          [-1, '6_10']
+          [-1, '5_6']
+          [1, '7_11']
+          [1, '11_12']
+          [-1, '8_12']
+          [-1, '7_8']
+    core_end_surface_box : 
+          [4, 4]
+          [5, 5]
+          [7, 7]
+          [10, 10]
+meshparams : 
+    _element_type : C3D8R
+    _mesh_density : 0.001
+    element_shape : BLOCK
+    element_order : 1
+    reduced_integration : True,), {}
+19/06/2025 15:31 :: Completed generate_mesh in 00:00:05 (hr:min:s)
