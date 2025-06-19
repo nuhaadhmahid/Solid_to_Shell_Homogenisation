@@ -1,47 +1,3 @@
-"""
-modules.py
-This module provides classes and utilities for unit conversion, logging, object serialization, directory management, variable storage, mesh parameter definition, and the generation of GATOR panel geometry and mesh using GMSH.
-Classes:
---------
-Units:
-    Provides static methods for converting between meters and millimeters, and between degrees and radians.
-Utils:
-    Contains static utility methods including:
-        - logger: Decorator for logging function execution.
-        - save_object: Save Python objects using pickle or JSON.
-        - load_object: Load Python objects using pickle or JSON.
-        - format_repr: Format object representations for display.
-        - create_case_dir: Create structured directories for simulation cases.
-Variables:
-    General-purpose class for storing and representing named variables as attributes.
-Mesh_params:
-    Represents mesh parameters for finite element models, including element type and mesh density.
-GATOR:
-    Class for defining and generating the geometry and mesh of a GATOR panel using GMSH.
-    - Initializes with variables and mesh parameters.
-    - Computes derived geometric variables.
-    - Generates mesh and geometry, exporting to STEP and ABAQUS INP files.
-Usage:
-------
-- Use the `Units` class for unit conversions.
-- Use the `Utils` class for logging, object serialization, and directory management.
-- Use the `variables` class to store arbitrary named variables.
-- Use the `meshparams` class to define mesh settings.
-- Use the `GATOR` class to generate panel geometry and mesh.
-Dependencies:
--------------
-- numpy
-- gmsh
-- os
-- pickle
-- json
-- time
-- traceback
-- threading
-Example:
---------
-"""
-
 import os
 
 import pickle
@@ -54,6 +10,7 @@ import threading
 from typing import Any, Callable
 
 import numpy as np
+from itertools import product
 import gmsh # ignore type
 
 class Utils:
@@ -315,14 +272,93 @@ class Units:
         """
         return np.rad2deg(value)
 
-class PanelVariables:
+class PanelMeshParams:
+    """
+    Represents mesh parameters for a finite element model.
+    Stores element type and mesh density, and derives element attributes.
+    """
+
+    def __init__(self, element_type: str, mesh_density: float) -> None:
+        """
+        Initializes the mesh with the specified element type and mesh density.
+
+        Parameters:
+            element_type (str): The type of finite element to be used in the mesh.
+            mesh_density (float): The density of the mesh, typically defined in meters.
+        """
+        self.element_type = element_type
+        self.mesh_density = mesh_density
+
+        # derived attributes
+        element_attributes: dict[str, dict[str, Any]] = {
+            # solid elements
+            "C3D20": {
+                "ELEMENT_SHAPE": "BLOCK",
+                "ELEMENT_ORDER": 2,
+                "REDUCED_INTEGRATION": False,
+            },
+            "C3D20R": {
+                "ELEMENT_SHAPE": "BLOCK",
+                "ELEMENT_ORDER": 2,
+                "REDUCED_INTEGRATION": True,
+            },
+            "C3D8": {
+                "ELEMENT_SHAPE": "BLOCK",
+                "ELEMENT_ORDER": 1,
+                "REDUCED_INTEGRATION": False,
+            },
+            "C3D8R": {
+                "ELEMENT_SHAPE": "BLOCK",
+                "ELEMENT_ORDER": 1,
+                "REDUCED_INTEGRATION": True,
+            },
+            # shell elements
+            "S4": {
+                "ELEMENT_SHAPE": "QUAD",
+                "ELEMENT_ORDER": 1,
+                "ELEMENT_ORDER_INCOMPLETE": False,
+            },
+            "S4R": {
+                "ELEMENT_SHAPE": "QUAD",
+                "ELEMENT_ORDER": 1,
+                "ELEMENT_ORDER_INCOMPLETE": False,
+            },
+        }
+        self.element_shape = element_attributes[self.element_type]["ELEMENT_SHAPE"]
+        self.element_order = element_attributes[self.element_type]["ELEMENT_ORDER"]
+        self.reduced_integration = element_attributes[self.element_type]["REDUCED_INTEGRATION"]
+
+    @property
+    def element_type(self) -> str:
+        return self._element_type
+
+    @element_type.setter
+    def element_type(self, value):
+        element_types = ["C3D20", "C3D20R", "C3D8", "C3D8R"]
+        if not (isinstance(value, str) and value in element_types):
+            raise TypeError("element_type must be a string and one of: " + ", ".join(element_types))
+        self._element_type = value
+
+    @property
+    def mesh_density(self) -> float:
+        return self._mesh_density
+
+    @mesh_density.setter
+    def mesh_density(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("mesh_density must be a float")
+        self._mesh_density = float(value)
+
+    def __repr__(self) -> str:
+        return Utils.format_repr(fields=self.__dict__)
+
+class IndependentPanelVariables:
     """
     A class defining GATOR panel geometry variables.
     """
-
     def __init__(
         self,
-        core_type : str = "ZPR",
+        core_type: str = "ZPR",
         mql: list = [True, True, True],
         nl: list = [1, 1],
         theta: float = np.deg2rad(60.0),
@@ -333,39 +369,125 @@ class PanelVariables:
         core_thickness: float = Units.mm2m(11.0),
         facesheet_thickness: float = Units.mm2m(0.8)
     ) -> None:
-        """
-        Initializes the variables object with default parameters for a GATOR panel.
+        self.core_type = core_type
+        self.mql = mql
+        self.nl = nl
+        self.theta = theta
+        self.chevron_wall_length = chevron_wall_length
+        self.chevron_thickness = chevron_thickness
+        self.chevron_separation = chevron_separation
+        self.rib_thickness = rib_thickness
+        self.core_thickness = core_thickness
+        self.facesheet_thickness = facesheet_thickness
 
-        Parameters:
-            mql (list): Bool for each axis for mirroring repeating unit to form unit cell.
-            nl (list): Number of unit cell along each in-plane axis.
-            theta (float): Chevron angle (in radians).
-            chevron_wall_length (float): Length of the chevron wall (in meters).
-            chevron_thickness (float): Thickness of the chevron wall (in meters).
-            chevron_separation (float): Separation between chevrons (in meters).
-            rib_thickness (float): Thickness of the rib (in meters).
-            core_thickness (float): Thickness of the core (in meters).
-            facesheet_thickness (float): Thickness of the facesheet (in meters).
-        """
-        self.core_type : str = core_type
-        self.mql: list = mql
-        self.nl: list = nl
-        self.theta: float = theta
-        self.chevron_wall_length: float = chevron_wall_length
-        self.chevron_thickness: float = chevron_thickness
-        self.chevron_separation: float = chevron_separation
-        self.rib_thickness: float = rib_thickness
-        self.core_thickness: float = core_thickness
-        self.facesheet_thickness: float = facesheet_thickness
+    @property
+    def core_type(self) -> str:
+        return self._core_type
+
+    @core_type.setter
+    def core_type(self, value):
+        if not isinstance(value, str):
+            raise TypeError("core_type must be a string")
+        self._core_type = value
+
+    @property
+    def mql(self) -> list:
+        return self._mql
+
+    @mql.setter
+    def mql(self, value):
+        if not (isinstance(value, list) and all(isinstance(v, bool) for v in value) and len(value) == 2):
+            raise TypeError("mql must be a list of two bools")
+        self._mql = value
+
+    @property
+    def nl(self) -> list:
+        return self._nl
+
+    @nl.setter
+    def nl(self, value):
+        if not (isinstance(value, list) and all(isinstance(v, int) for v in value) and len(value) == 2):
+            raise TypeError("nl must be a list of two ints")
+        self._nl = value
+
+    @property
+    def theta(self) -> float:
+        return self._theta
+
+    @theta.setter
+    def theta(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("theta must be a float")
+        self._theta = float(value)
+
+    @property
+    def chevron_wall_length(self) -> float:
+        return self._chevron_wall_length
+
+    @chevron_wall_length.setter
+    def chevron_wall_length(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("chevron_wall_length must be a float")
+        self._chevron_wall_length = float(value)
+
+    @property
+    def chevron_thickness(self) -> float:
+        return self._chevron_thickness
+
+    @chevron_thickness.setter
+    def chevron_thickness(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("chevron_thickness must be a float")
+        self._chevron_thickness = float(value)
+
+    @property
+    def chevron_separation(self) -> float:
+        return self._chevron_separation
+
+    @chevron_separation.setter
+    def chevron_separation(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("chevron_separation must be a float")
+        self._chevron_separation = float(value)
+
+    @property
+    def rib_thickness(self) -> float:
+        return self._rib_thickness
+
+    @rib_thickness.setter
+    def rib_thickness(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("rib_thickness must be a float")
+        self._rib_thickness = float(value)
+
+    @property
+    def core_thickness(self) -> float:
+        return self._core_thickness
+
+    @core_thickness.setter
+    def core_thickness(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("core_thickness must be a float")
+        self._core_thickness = float(value)
+
+    @property
+    def facesheet_thickness(self) -> float:
+        return self._facesheet_thickness
+
+    @facesheet_thickness.setter
+    def facesheet_thickness(self, value):
+        if not isinstance(value, (float, int)):
+            raise TypeError("facesheet_thickness must be a float")
+        self._facesheet_thickness = float(value)
 
     def __repr__(self):
         return Utils.format_repr(self.__dict__)
     
-class DerivedPanelVariables:
+class DependentPanelVariables:
 
     def __init__(
         self, 
-        variables : PanelVariables
+        variables : IndependentPanelVariables
     ) -> None:
         """
         Initializes the class with the given panel variables.
@@ -380,8 +502,7 @@ class DerivedPanelVariables:
 
     def GatorPanel(self):
         """
-        Initializes and computes geometric and connectivity properties for a GatorPanel structure.
-        This method calculates key geometric parameters and sets up node coordinates, line connectivity, and surface connectivity for the GatorPanel based on the current values in `self.variables`. The computed attributes are used for downstream structural analysis and modeling.
+        This method calculates derived variables for the GatorPanel based on the current values in `self.variables`. 
         Attributes Set:
             si (float): Internal chevron spacing.
             so (float): External chevron spacing.
@@ -501,75 +622,26 @@ class DerivedPanelVariables:
     def __repr__(self):
         return Utils.format_repr(self.__dict__)
 
-class MeshParams:
-    """
-    Represents mesh parameters for a finite element model.
-    Stores element type and mesh density, and derives element attributes.
-    """
-
-    def __init__(self, element_type: str, mesh_density: float) -> None:
-        """
-        Initializes the mesh with the specified element type and mesh density.
-
-        Parameters:
-            element_type (str): The type of finite element to be used in the mesh.
-            mesh_density (float): The density of the mesh, typically defined in meters.
-        """
-        self.element_type: str = element_type
-        self.mesh_density: float = mesh_density
-
-        # derived attributes
-        element_attributes: dict[str, dict[str, Any]] = {
-            # solid elements
-            "C3D20": {
-                "ELEMENT_SHAPE": "BLOCK",
-                "ELEMENT_ORDER": 2,
-                "REDUCED_INTEGRATION": False,
-            },
-            "C3D20R": {
-                "ELEMENT_SHAPE": "BLOCK",
-                "ELEMENT_ORDER": 2,
-                "REDUCED_INTEGRATION": True,
-            },
-            "C3D8": {
-                "ELEMENT_SHAPE": "BLOCK",
-                "ELEMENT_ORDER": 1,
-                "REDUCED_INTEGRATION": False,
-            },
-            "C3D8R": {
-                "ELEMENT_SHAPE": "BLOCK",
-                "ELEMENT_ORDER": 1,
-                "REDUCED_INTEGRATION": True,
-            },
-            # shell elements
-            "S4": {
-                "ELEMENT_SHAPE": "QUAD",
-                "ELEMENT_ORDER": 1,
-                "ELEMENT_ORDER_INCOMPLETE": False,
-            },
-            "S4R": {
-                "ELEMENT_SHAPE": "QUAD",
-                "ELEMENT_ORDER": 1,
-                "ELEMENT_ORDER_INCOMPLETE": False,
-            },
-        }
-        self.element_shape = element_attributes[self.element_type]["ELEMENT_SHAPE"]
-        self.element_order = element_attributes[self.element_type]["ELEMENT_ORDER"]
-        self.reduced_integration = element_attributes[self.element_type]["REDUCED_INTEGRATION"]
-
-    def __repr__(self) -> str:
-        return Utils.format_repr(fields=self.__dict__)
-
+"""
+Place holder
+class Abaqus
+    def __init__():
+    def geometry
+    def boundary_conditions
+    def general_step
+    def homogenisation_step
+    def equivalent stiffness # use panda dataframes
+"""
 
 class PanelModel:
     def __init__(
         self,
-        variables : PanelVariables,
-        meshparams : MeshParams
+        variables : IndependentPanelVariables,
+        meshparams : PanelMeshParams
     ) -> None:
         # Geometry
         self.variables= variables
-        self.derivedvariables= DerivedPanelVariables(variables=self.variables)
+        self.derivedvariables= DependentPanelVariables(variables=self.variables)
 
         # Mesh
         self.meshparams = meshparams
@@ -578,6 +650,7 @@ class PanelModel:
     def __repr__(self) -> str:
         return Utils.format_repr(fields=self.__dict__)
 
+    @Utils.logger
     def generate_mesh(self) -> None:
         """
         Generates the geometry and mesh for the panel using GMSH.
@@ -1076,15 +1149,15 @@ class PanelModel:
                 MESH.generate(3)
 
             # Mirroring repeating unit to create unit cell
-            mirror_steps: list[list[int]] = [
-                [1, 1, -1],  # Z
-                [-1, 1, 1],  # X
-                [-1, 1, -1],  # X and Z
-                [1, -1, 1],  # Y
-                [1, -1, -1],  # Y and Z
-                [-1, -1, 1],  # X and Y
-                [-1, -1, -1],  # X, Y and Z
-            ]
+            mirror_steps: list[list[int]] = []
+            # Generate all mirror combinations for enabled axes, except the identity
+            axes = self.variables.mql + [True] # Z axis always mirrored
+            # For each axis, use [-1, 1] if enabled, else [1]
+            options = [[-1, 1] if en else [1] for en in axes]
+            for mirror in product(*options):
+                if mirror != (1, 1, 1):
+                    mirror_steps.append(list(mirror))
+            # Create mirroed mesh
             tesselate(mirror_steps, None)
             CAD.synchronize()
 
@@ -1102,10 +1175,6 @@ class PanelModel:
             gmsh.option.setNumber("Mesh.SaveGroupsOfNodes", -100)
 
             # Saving geometry mesh file
-            MESH.removeDuplicateNodes()
-            MESH.renumberNodes()
-            MESH.renumberElements()
-            CAD.synchronize()
             gmsh.write("file.inp")
 
         # NOTE: Currently not used
@@ -1142,49 +1211,30 @@ class PanelModel:
         create_cad()
         create_mesh()
 
-        # # Show the model
-        # gmsh.fltk.run()
+        # Show the model
+        gmsh.fltk.run()
 
         gmsh.finalize()
 
 
-
-
-
 if __name__ == "__main__":
 
-    panel = PanelVariables(
+
+    panel = IndependentPanelVariables(
         core_type="ZPR",
-        mql = [True, True, True], 
-        nl=[2,1],
+        mql = [True, True], 
+        nl=[1,1],
         theta=np.deg2rad(60.0),
         chevron_wall_length=Units.mm2m(12.5),
         chevron_thickness=Units.mm2m(1.0),
         chevron_separation=Units.mm2m(6.0),
         rib_thickness=Units.mm2m(1.0),
         core_thickness=Units.mm2m(11.0),
-        facesheet_thickness=Units.mm2m(0.8),
+        facesheet_thickness=Units.mm2m(0.8)
     )
-
-    mesh_params = MeshParams(element_type="C3D8R", mesh_density=Units.mm2m(1.0))
+    mesh_params = PanelMeshParams(
+        element_type="C3D8R", 
+        mesh_density=Units.mm2m(1.0)
+        )
     print(PanelModel(variables=panel, meshparams=mesh_params))
 
-    # design = GATOR(
-    #     Variables(
-    #         core_type="ZPR",
-    #         mql = [2,2,2], 
-    #         nl=[1,1],
-    #         theta=np.deg2rad(60.0),
-    #         chevron_wall_length=Units.mm2m(12.5),
-    #         chevron_thickness=Units.mm2m(1.0),
-    #         chevron_separation=Units.mm2m(6.0),
-    #         rib_thickness=Units.mm2m(1.0),
-    #         core_thickness=Units.mm2m(11.0),
-    #         facesheet_thickness=Units.mm2m(0.8),
-    #     ),
-    #     MeshParams(element_type="C3D8R", mesh_density=Units.mm2m(1.0)),
-    # )
-
-    # print(design.variables)
-    # print(design.derivedvariables)
-    # print(design.meshparams)
