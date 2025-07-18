@@ -1599,7 +1599,7 @@ class PanelModel:
                         f.write(f"ERROR: Cannot copy result file {ext} for case number {self.panel.case_number}\n")
 
             # Extract results using a Python script
-            script_file = os.path.abspath("extract_ABD.py")
+            script_file = os.path.abspath("abaqus_script_to_extract_ABD.py")
             command = f"abaqus python {script_file} -- {self.panel.directory.case_folder} {self.panel.case_number}"
             run_subprocess(
                 command,

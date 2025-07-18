@@ -1,6 +1,0 @@
-18/07/2025 16:53 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x000001E87068BA10>,), {}
-18/07/2025 16:53 :: Completed generate_mesh in 00:00:00
-18/07/2025 16:53 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x000001E87068BA10>,), {}
-18/07/2025 16:53 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:53 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x000001E87068BA10>,), {}
-18/07/2025 16:53 :: Completed run_abaqus in 00:00:14
