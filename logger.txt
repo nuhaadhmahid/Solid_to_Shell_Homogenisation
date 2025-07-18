@@ -1,42 +1,6 @@
-18/07/2025 16:34 :: generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x0000025C5F04BA10>,), {}
-18/07/2025 16:34 :: Completed generate_mesh in 00:00:02
-18/07/2025 16:34 :: find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000025C5F04BA10>,), {}
-18/07/2025 16:34 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:34 :: run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000025C5F04BA10>,), {}
-18/07/2025 16:34 :: Completed run_abaqus in 00:00:18
-18/07/2025 16:35 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x00000260C058BA10>,), {}
-18/07/2025 16:35 :: Completed generate_mesh in 00:00:02
-18/07/2025 16:35 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x00000260C058BA10>,), {}
-18/07/2025 16:35 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:35 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x00000260C058BA10>,), {}
-18/07/2025 16:35 :: Completed run_abaqus in 00:00:20
-18/07/2025 16:36 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x0000021ED5F1BA10>,), {}
-18/07/2025 16:36 :: Completed generate_mesh in 00:00:02
-18/07/2025 16:36 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000021ED5F1BA10>,), {}
-18/07/2025 16:36 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:36 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000021ED5F1BA10>,), {}
-18/07/2025 16:37 :: Completed run_abaqus in 00:00:18
-18/07/2025 16:41 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x000002454757BA10>,), {}
-18/07/2025 16:41 :: Completed generate_mesh in 00:00:02
-18/07/2025 16:41 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x000002454757BA10>,), {}
-18/07/2025 16:41 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:41 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x000002454757BA10>,), {}
-18/07/2025 16:41 :: Completed run_abaqus in 00:00:21
-18/07/2025 16:43 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x0000019AFF1EBA10>,), {}
-18/07/2025 16:43 :: Completed generate_mesh in 00:00:02
-18/07/2025 16:43 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000019AFF1EBA10>,), {}
-18/07/2025 16:43 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:43 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000019AFF1EBA10>,), {}
-18/07/2025 16:43 :: Completed run_abaqus in 00:00:20
-18/07/2025 16:48 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x0000023730F1BA10>,), {}
-18/07/2025 16:48 :: Completed generate_mesh in 00:00:00
-18/07/2025 16:48 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000023730F1BA10>,), {}
-18/07/2025 16:48 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:48 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000023730F1BA10>,), {}
-18/07/2025 16:48 :: Completed run_abaqus in 00:00:15
-18/07/2025 16:48 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x0000026AD13FBA10>,), {}
-18/07/2025 16:48 :: Completed generate_mesh in 00:00:00
-18/07/2025 16:48 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000026AD13FBA10>,), {}
-18/07/2025 16:48 :: Completed find_node_pairs in 00:00:00
-18/07/2025 16:48 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x0000026AD13FBA10>,), {}
-18/07/2025 16:48 :: Completed run_abaqus in 00:00:14
+18/07/2025 16:53 :: Running generate_mesh args: (<__main__.PanelModel.PanelGMSH object at 0x000001E87068BA10>,), {}
+18/07/2025 16:53 :: Completed generate_mesh in 00:00:00
+18/07/2025 16:53 :: Running find_node_pairs args: (<__main__.PanelModel.PanelHomogenisation object at 0x000001E87068BA10>,), {}
+18/07/2025 16:53 :: Completed find_node_pairs in 00:00:00
+18/07/2025 16:53 :: Running run_abaqus args: (<__main__.PanelModel.PanelHomogenisation object at 0x000001E87068BA10>,), {}
+18/07/2025 16:53 :: Completed run_abaqus in 00:00:14
