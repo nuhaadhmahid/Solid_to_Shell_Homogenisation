@@ -1,0 +1,37 @@
+{
+    "area_ratio": 0.18245392665232596,
+    "chevron_separation": 0.006,
+    "chevron_thickness": 0.001,
+    "chevron_wall_length": 0.0125,
+    "core_material": [
+        396000000.0,
+        0.48
+    ],
+    "core_thickness": 0.011,
+    "core_type": "ZPR",
+    "element_order": 1,
+    "element_shape": "BLOCK",
+    "element_type": "C3D8R",
+    "facesheet_material": [
+        22900000.0,
+        0.48
+    ],
+    "facesheet_thickness": 0.0008,
+    "lx": 0.012500000000000004,
+    "ly": 0.03591858428704209,
+    "mesh_density": 0.001,
+    "mql": [
+        true,
+        true
+    ],
+    "nl": [
+        1,
+        1
+    ],
+    "qlx": 0.006250000000000002,
+    "qly": 0.017959292143521044,
+    "qlz": 0.0063,
+    "reduced_integration": true,
+    "rib_thickness": 0.001,
+    "theta": 1.0471975511965976
+}

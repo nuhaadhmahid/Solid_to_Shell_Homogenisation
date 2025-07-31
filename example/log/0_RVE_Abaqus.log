@@ -1,0 +1,24 @@
+Analysis initiated from SIMULIA established products
+Abaqus JOB 0_RVE
+Abaqus 2023
+Begin Analysis Input File Processor
+7/31/2025 3:40:04 PM
+Run pre.exe
+7/31/2025 3:40:07 PM
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+7/31/2025 3:40:07 PM
+Run standard.exe
+7/31/2025 3:40:11 PM
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+7/31/2025 3:40:12 PM
+Run SMASimUtility.exe
+7/31/2025 3:40:13 PM
+End SIM Wrap-up
+Abaqus JOB 0_RVE COMPLETED
+Successfully checked out QFT/30 from DSLS server r1132101397472-eu1-licensing-2.3dexperience.3ds.com
+Successfully checked out QXT/30 from DSLS server r1132101397472-eu1-licensing.3dexperience.3ds.com
+Abaqus License Manager checked out the following licenses:
+Abaqus/Foundation checked out 30 tokens from DSLS server r1132101397472-eu1-licensing.3dexperience.3ds.com.
+<3738 out of 5600 licenses remain available>.
