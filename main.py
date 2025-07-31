@@ -1,22 +1,22 @@
-import os
+"""
+Author: Nuhaadh Mahid (nuhaadh.mahid@bristol.ac.uk)
+This code is part of the work described in:
+N. M. Mahid, M. Schenk, B. Titurus, and B. K. S. Woods, “Parametric design studies of GATOR morphing fairings for folding wingtip joints,” Smart Materials and Structures, vol. 34, no. 2, p. 25049, Jan. 2025, doi: 10.1088/1361-665x/adad21.
+"""
 
+import os
 import pickle
 import json
-
 import time
 import traceback
 import threading
-
 from typing import Any, Callable
-
 import numpy as np
 from itertools import product
 import functools
 import gmsh
-
 import subprocess
 import shutil
-
 
 class Utils:
     """
@@ -258,18 +258,18 @@ class PanelDefaults:
     """Centralized default values for panel variables and mesh parameters."""
     
     # IndependentPanelVariables defaults
-    core_type = "ZPR"
-    mql = [True, True]
-    nl = [1, 1]
-    theta = np.deg2rad(60.0)
-    chevron_wall_length = Utils.Units.mm2m(12.5)
-    chevron_thickness = Utils.Units.mm2m(1.0)
-    chevron_separation = Utils.Units.mm2m(6.0)
-    rib_thickness = Utils.Units.mm2m(1.0)
-    core_thickness = Utils.Units.mm2m(11.0)
-    facesheet_thickness = Utils.Units.mm2m(0.8)
-    core_material = (396.0 * (10 ** 6.0), 0.48)
-    facesheet_material = (22.9 * (10 ** 6.0), 0.48)
+    core_type = "ZPR" # zero-poisson ratio core
+    mql = [True, True] # cell symmetry across x and y directions
+    nl = [1, 1] # number of cells in x and y directions
+    theta = np.deg2rad(60.0) # chevron angle in radians
+    chevron_wall_length = Utils.Units.mm2m(12.5) # length of chevron wall
+    chevron_thickness = Utils.Units.mm2m(1.0) # thickness of chevron wall
+    chevron_separation = Utils.Units.mm2m(6.0) # separation between chevrons
+    rib_thickness = Utils.Units.mm2m(1.0) # thickness of ribs
+    core_thickness = Utils.Units.mm2m(11.0) # thickness of core
+    facesheet_thickness = Utils.Units.mm2m(0.8) # thickness of facesheet
+    core_material = (396.0 * (10 ** 6.0), 0.48) # core material properties (E, nu)
+    facesheet_material = (22.9 * (10 ** 6.0), 0.48) # facesheet material properties (E, nu)
 
     # PanelMeshParams defaults
     element_type = "C3D8R"
@@ -431,7 +431,7 @@ class IndependentPanelVariables:
     def __repr__(self):
         return Utils.format_repr(self.__dict__)
 
-class PanelMeshParams:
+class SolidMeshParams:
     """
     Represents mesh parameters for a finite element model.
     Stores element type and mesh density, and derives element attributes.
@@ -669,10 +669,10 @@ class PanelModel:
     def Analysis(self, 
             directory: Utils.Directory = Utils.Directory(case_name="default_case"),
             case_number: int = 0,
-            meshparams: PanelMeshParams = PanelMeshParams()
+            meshparams: SolidMeshParams = SolidMeshParams()
         ) -> None:
         """
-        Sets up directory structure, initializes mesh parameters,generates the GMSH panel geometry and mesh, and runs homogenisation process.
+        Sets up directory structure, initializes mesh parameters, generates the GMSH panel geometry and mesh, and runs homogenisation process.
         """
         # Directory
         self.directory: Utils.Directory = directory
@@ -682,7 +682,7 @@ class PanelModel:
         self.derivedvariables: DependentPanelVariables = DependentPanelVariables(variables=self.variables)
 
         # Mesh parameters
-        self.meshparams: PanelMeshParams = meshparams
+        self.meshparams: SolidMeshParams = meshparams
 
         # Combine independent variables, dependent variables, and mesh parameters into a dictionary
         panel_data = {
@@ -1579,7 +1579,8 @@ class PanelModel:
             log_file = os.path.join(self.panel.directory.case_folder, "log", f"{self.panel.case_number}_RVE_Abaqus.log")
 
             # Run the Abaqus analysis
-            command = f"abaqus analysis double=both job={case_name} input={job_file} cpus=1 mp_mode=thread interactive"
+            abaqus_path = "C:\\SIMULIA\\Commands\\abaqus.bat"
+            command = f"{abaqus_path} analysis double=both job={case_name} input={job_file} cpus=1 mp_mode=thread interactive"
             run_subprocess(
                 command,
                 run_folder,
@@ -1600,13 +1601,12 @@ class PanelModel:
 
             # Extract results using a Python script
             script_file = os.path.abspath("abaqus_script_to_extract_ABD.py")
-            command = f"abaqus python {script_file} -- {self.panel.directory.case_folder} {self.panel.case_number}"
+            command = f"{abaqus_path} python {script_file} -- {self.panel.directory.case_folder} {self.panel.case_number}"
             run_subprocess(
                 command,
                 run_folder,
                 log_file
             )
-
 
 class CasesManager:
     """
