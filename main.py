@@ -667,7 +667,7 @@ class PanelModel:
         return Utils.format_repr(fields=self.__dict__)
 
     def Analysis(self, 
-            directory: Utils.Directory = Utils.Directory(case_name="default_case"),
+            directory: Utils.Directory,
             case_number: int = 0,
             meshparams: SolidMeshParams = SolidMeshParams()
         ) -> None:
@@ -1642,7 +1642,7 @@ if __name__ == "__main__":
     gmsh_popup : bool = False
     
     # default case
-    cm = CasesManager()
+    cm = CasesManager("example")
 
     # Homogenisation
-    cm.cases[0].Analysis()
+    cm.cases[0].Analysis(directory=cm.directory)

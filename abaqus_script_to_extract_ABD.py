@@ -13,87 +13,98 @@ import sys
 
 import traceback
 
-# EXTRACTION
+# EXTACTION
 def data_extraction(case_folder, case_number):
     """
     Extracts the stiffness matrix from the ODB file and saves it in a JSON format.
     """
 
-    # Reference indices for strain/curvature
-    strain_ref_idx = {"E11": 0, "E22": 1, "E12": 2, "K11": 3, "K22": 4, "K12": 5}
+    # reference index
+    Strain_Reference_Index = {"E11":0,"E22":1,"E12":2,"K11":3,"K22":4,"K12":5}
 
-    # Stiffness matrix terms and indices
-    terms = ["A", "B", "D"]
-    indices = [11, 12, 16, 22, 26, 66]
-    stiffness = {f"{m}{i}": [] for m in terms for i in indices}
-    stiffness_idx = {
-        "A11": (0, 0), "A12": (0, 1), "A16": (0, 2),
-        "A22": (1, 1), "A26": (1, 2), "A66": (2, 2),
-        "B11": (0, 3), "B12": (0, 4), "B16": (0, 5),
-        "B22": (1, 4), "B26": (1, 5), "B66": (2, 5),
-        "D11": (3, 3), "D12": (3, 4), "D16": (3, 5),
-        "D22": (4, 4), "D26": (4, 5), "D66": (5, 5)
+    # collector
+    STIFFNESS={"%s%i"%(matrix,term):[] for matrix in ["A", "B", "D"] for term in [11, 12, 16, 22, 26, 66]}
+    STIFFNESS_INDEX= {
+        "A11":[0,0], "A12":[0,1], "A16":[0,2],
+                     "A22":[1,1], "A26":[1,2],
+                                  "A66":[2,2],
+        "B11":[0,3], "B12":[0,4], "B16":[0,5],
+                     "B22":[1,4], "B26":[1,5],
+                                  "B66":[2,5],
+        "D11":[3,3], "D12":[3,4], "D16":[3,5],
+                     "D22":[4,4], "D26":[4,5],
+                                  "D66":[5,5]
     }
-
-    odb = None
+    
     try:
-        # Load panel data
-        panel_path = os.path.join(case_folder, "input", f"{case_number}_panel_data.json")
-        with open(panel_path, "r") as f:
-            panel_data = json.load(f)
-        area = panel_data["lx"] * panel_data["ly"]
+        # READ DEFAULT INPUTS
+        with open(os.path.join(case_folder, "input", "%i_panel_data.json"%(case_number)), "r") as json_file:
+            panel_data = json.load(json_file)
 
-        # Open ODB file
-        odb_path = os.path.join(case_folder, "odb", f"{case_number}_RVE.odb")
-        odb = openOdb(odb_path)
+        # reference area
+        Area = panel_data["lx"]*panel_data["ly"]
 
-        # Node sets
-        instance = odb.rootAssembly.instances['PART-1-1']
-        strain_set = instance.nodeSets['STRAIN']
-        curvature_set = instance.nodeSets['CURVATURE']
 
-        # Loop over steps
-        for step in odb.steps.values():
-            if not step.loadCases:
-                continue  # Skip non-homogenisation steps
+        # ODB Files
+        odb_file = os.path.join(case_folder, "odb", "%i_RVE.odb"%(case_number))
+        odb=openOdb(odb_file)
 
-            # Loop over frames
-            for frame in step.frames:
-                if frame.frameId == 0:
-                    continue  # Skip initial frame
+        # Sets
+        STRAIN_set = odb.rootAssembly.instances['PART-1-1'].nodeSets['STRAIN']
+        CURVATURE_set = odb.rootAssembly.instances['PART-1-1'].nodeSets['CURVATURE']
 
-                strain_state = frame.description[-3:]
-                if strain_state not in strain_ref_idx:
-                    continue  # Skip unknown strain states
+        # Step
+        steps=odb.steps
+        for StepName, step in steps.items():
 
-                rf = frame.fieldOutputs['RF']
-                load_strain = rf.getSubset(region=strain_set).values[0].data
-                load_curvature = rf.getSubset(region=curvature_set).values[0].data
+            if bool(step.loadCases): Homogenisation = True # print("Homogenisation Step")  
+            else: Homogenisation = False # print("General Step")
 
-                abd_col = np.array([
-                    load_strain[0] / area,
-                    load_strain[1] / area,
-                    load_strain[2] / area,
-                    load_curvature[0] / area,
-                    load_curvature[1] / area,
-                    load_curvature[2] / area
-                ])
-                abd = np.zeros((6, 6))
-                abd[:, strain_ref_idx[strain_state]] = abd_col
+            if Homogenisation:
+                # Frames
+                frames=step.frames # you could pick whatever frame you want here
 
-                # Collect ABD terms
-                for term, (i, j) in stiffness_idx.items():
-                    stiffness[term].append(abd[i, j])
+                # Homogenisation Loads
+                ABD = np.zeros((6,6))
+                for frame in frames:
 
-        # Save results
-        data_path = os.path.join(case_folder, "data", f"{case_number}_stiffness.json")
-        with open(data_path, 'w') as f:
-            json.dump(stiffness, f, indent=4)
+                    # loading mode for homoginisation
+                    if frame.frameId==0: continue
+                    else:Strain_State = frame.description[-3:]
 
-    except:
+                    # Loading nodes' reaction load
+                    reactionForce = frame.fieldOutputs['RF']
+                    LOAD_on_STRAIN_node = reactionForce.getSubset(region=STRAIN_set).values[0].data
+                    LOAD_on_CURVATURE_node = reactionForce.getSubset(region=CURVATURE_set).values[0].data
+
+                    # ABD from load data, assuming applied strain is exx=exy=rxy=1 
+                    ABD_column = np.array([
+                        LOAD_on_STRAIN_node[0]/Area,
+                        LOAD_on_STRAIN_node[1]/Area,
+                        LOAD_on_STRAIN_node[2]/Area,
+                        LOAD_on_CURVATURE_node[0]/Area,
+                        LOAD_on_CURVATURE_node[1]/Area,
+                        LOAD_on_CURVATURE_node[2]/Area
+                    ])
+                    ABD[:,Strain_Reference_Index[Strain_State]] = ABD_column
+
+                # collecting the ABD matrix
+                for term in STIFFNESS.keys():
+                    STIFFNESS[term].append(ABD[STIFFNESS_INDEX[term][0],STIFFNESS_INDEX[term][1]])
+
+        # save data
+        data_file = os.path.join(case_folder, "data", "%i_stiffness.json"%(case_number))
+        with open(data_file, 'w') as json_file:
+            json.dump(STIFFNESS, json_file, indent = 4)
+
+        if 'odb' in locals():
+            odb.close()
+    
+    except Exception as e:
+        print(e)
         traceback.print_exc()
-    finally:
-        if odb is not None:
+
+        if 'odb' in locals():
             odb.close()
 
 
@@ -105,7 +116,8 @@ if __name__ == '__main__':
 
     try:
         data_extraction(case_folder, case_number)
-    except:
+    except Exception as e:
+        print(e)
         traceback.print_exc()
 
 
