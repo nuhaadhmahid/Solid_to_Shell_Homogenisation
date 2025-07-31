@@ -1,7 +1,7 @@
 
 This code models a representative volume element (RVE) of an accordion core sandwich panel. The panel exhibits directional mechanical properties: it is flexible along one axis and stiff along the perpendicular axis, making it suitable for applications requiring anisotropic behavior.
 
-<img src="RVE.png" alt="Representative volume element of the panel" width="300"/>
+<img src="RVE.png" alt="Representative volume element of the panel" width="700"/>
 
 As the finite element analysis of the full-scale panel is computationally expensive, it restricts the analysis of large structures with such complex underlying panels. This code homogenizes the mechanical response of the RVE to an equivalent shell stiffness matrix. The large structure can then be modeled as a shell surface with the homogenized stiffness matrix representing the panel's stiffness properties.
 
