@@ -38,7 +38,7 @@ def data_extraction(case_folder, case_number):
     
     try:
         # READ DEFAULT INPUTS
-        with open(os.path.join(case_folder, "input", "%i_panel_data.json"%(case_number)), "r") as json_file:
+        with open(os.path.join(case_folder, "input", "%i_UC_derived.json"%(case_number)), "r") as json_file:
             panel_data = json.load(json_file)
 
         # reference area
