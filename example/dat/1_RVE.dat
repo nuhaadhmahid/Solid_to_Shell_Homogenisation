@@ -1,0 +1,2641 @@
+1
+
+   Abaqus 2023                                  Date 07-Aug-2025   Time 19:30:07
+   For use by BRISTOL under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine IT106866 
+                          you are authorized to run
+                          Abaqus/Foundation until 29-Sep-2025
+
+                          Your site id is: R1132101397472 
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      http://www.3ds.com/products/simulia/locations/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2023                       * 
+                *                                                         * 
+                *          BUILD ID: 2022_09_28-19.11.55 183150           * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2023 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *NODE
+  *ELEMENT, TYPE=C3D8R
+  *ELSET, ELSET=FACESHEET
+  *ELSET, ELSET=CORE
+  *NSET, NSET=ZNEG
+  *NSET, NSET=ZPOS
+  *NSET, NSET=XPOS
+  *NSET, NSET=YPOS
+  *NSET, NSET=XNEG
+  *NSET, NSET=YNEG
+  *NSET, NSET=PIN-NODE
+  *NSET, NSET=STRAIN
+  *NSET, NSET=CURVATURE
+  *NSET, NSET=SHEAR
+  *MATERIAL, NAME=MAT-CORE
+  *ELASTIC
+  *MATERIAL, NAME=MAT-FACESHEET
+  *ELASTIC
+  *ORIENTATION, NAME=GLOBAL, DEFINITION=COORDINATES
+  *SOLID SECTION, ELSET=FACESHEET, MATERIAL=MAT-FACESHEET, ORIENTATION=GLOBAL, CONTROLS=EC-1
+  *SOLID SECTION, ELSET=CORE, MATERIAL=MAT-CORE, ORIENTATION=GLOBAL, CONTROLS=EC-1
+  *SECTION CONTROLS, NAME=EC-1, HOURGLASS=ENHANCED
+
+ ***WARNING: THE PARAMETER HOURGLASS = ENHANCED ON THE SECTION CONTROLS OPTION 
+             IS RELEVANT FOR THESE ELEMENTS: C3D8R, CAX4R, CGAX4R, CPEG4R, 
+             CPE4R, CPS4R, M3D4R, S4R, SC8R AND THEIR HYBRID, THERMAL AND 
+             PRESSURE COUNTERPARTS WHEREVER APPLICABLE. IT IS ALSO RELEVANT FOR 
+             ALL TYPES OF MODIFIED TRIANGULAR AND TETRAHEDRAL ELEMENTS. THIS 
+             WARNING CAN BE IGNORED IF THE FEATURE IS APPLIED TO THESE ELEMENT 
+             TYPES ONLY.
+  *SOLID SECTION, ELSET=FACESHEET, MATERIAL=MAT-FACESHEET, ORIENTATION=GLOBAL, CONTROLS=EC-1
+  *SOLID SECTION, ELSET=CORE, MATERIAL=MAT-CORE, ORIENTATION=GLOBAL, CONTROLS=EC-1
+  *BOUNDARY
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, OP=NEW
+  *EQUATION
+  *OUTPUT, FIELD
+  *OUTPUT, FIELD, VARIABLE=PRESELECT
+  *OUTPUT, HISTORY, FREQUENCY=0
+  *ELEMENT OUTPUT, DIRECTIONS=YES
+  *OUTPUT, FIELD
+  *OUTPUT, FIELD, VARIABLE=PRESELECT
+  *OUTPUT, HISTORY, FREQUENCY=0
+  *ELEMENT OUTPUT, DIRECTIONS=YES
+  *OUTPUT, FIELD
+  *OUTPUT, FIELD, VARIABLE=PRESELECT
+  *OUTPUT, HISTORY, FREQUENCY=0
+  *ELEMENT OUTPUT, DIRECTIONS=YES
+
+ ***NOTE: MPCS (EXTERNAL or INTERNAL, including those generated from rigid body 
+          definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE 
+          ADDITIONAL DEGREES OF FREEDOM
+  
+                               E L E M E N T   Q U A L I T Y  C H E C K S        
+  
+  
+ ***NOTES: DISTORTED ISOPARAMETRIC ELEMENTS: ANGLE BETWEEN ISOPARAMETRIC LINES 
+           IS LESS THAN 45 DEGREES OR GREATER THAN 135 DEGREES.
+  
+           TETRAHEDRAL QUALITY MEASURE: VOLUME OF TETRAHEDRON DIVIDED BY THE 
+           VOLUME OF EQUILATERAL TETRAHEDRON WITH SAME CIRCUMSPHERE RADIUS; 
+           0 FOR DEGENERATE TETRAHEDRON AND 1 FOR EQUILATERIAL TETRAHEDRON. IT 
+           IS RECOMMENDED THAT THE TETRAHEDRAL QUALITY MEASURE BE GREATER THAN 
+           0.02, THE MIN INTERIOR (DIHEDRAL) ANGLE BE GREATER THAN 10 DEGREES, 
+           AND THE MAX INTERIOR (DIHEDRAL) ANGLE BE LESS THAN 160 DEGREES. 
+  
+           MODIFIED TETRAHEDRAL QUALITY MEASURE: ANGLES BETWEEN THE TWO LINE 
+           SEGMENTS ON EACH EDGE; THE EDGES OF MODIFIED TETRAHEDRAL SHOULD BE 
+           AS STRAIGHT AS POSSIBLE. IT IS RECOMMENDED THAT THE ANGLE BETWEEN 
+           THE TWO LINE SEGMENTS ON EACH EDGE IS BETWEEN 160 AND 180 DEGREES. 
+  
+           TRIANGULAR QUALITY MEASURE: AREA OF TRIANGLE DIVIDED BY THE AREA OF 
+           EQUILATERAL TRIANGLE WITH SAME CIRCUMCIRCLE RADIUS; 0 FOR DEGENERATE 
+           TRIANGLE AND 1 FOR EQUILATERAL TRIANGLE. IT IS RECOMMENDED THAT THE
+           TRIANGULAR QUALITY MEASURE BE GREATER THAN 0.01, THE MIN INTERIOR 
+           ANGLE BE GREATER THAN 10 DEGREES, AND THE MAX INTERIOR ANGLE BE LESS 
+           THAN 160 DEGREES. 
+  
+           NODAL ADJUSTMENTS ARISING FROM CONTACT INTERACTIONS AND/OR TIE 
+           CONSTRAINTS CAN CAUSE SEVERE ELEMENT DISTORTION. IT MAY BE NECESSARY 
+           TO REMESH IN ORDER TO REDUCE THE AMOUNT OF ADJUSTMENT. 
+
+ ***WARNING: 2304 elements are distorted. Either the isoparametric angles are 
+             out of the suggested limits or the triangular or tetrahedral 
+             quality measure is bad. The elements have been identified in 
+             element set WarnElemDistorted.
+  
+ --------------------------------------------------------------------------------
+ Distorted isoparametric elements
+  
+  Element   Min/max angle   Adjusted nodes 
+ --------- ---------------- -------------- 
+         8          42.7305       NO       
+         9          39.1829       NO       
+        10          36.1027       NO       
+        11           33.418       NO       
+        12           31.067       NO       
+        20          42.7305       NO       
+        21          39.1829       NO       
+        22          36.1027       NO       
+        23           33.418       NO       
+        24           31.067       NO       
+        32          42.7305       NO       
+        33          39.1829       NO       
+        34          36.1027       NO       
+        35           33.418       NO       
+        36           31.067       NO       
+        44          42.7305       NO       
+        45          39.1829       NO       
+        46          36.1027       NO       
+        47           33.418       NO       
+        48           31.067       NO       
+        56          42.7305       NO       
+        57          39.1829       NO       
+        58          36.1027       NO       
+        59           33.418       NO       
+        60           31.067       NO       
+        68          42.7305       NO       
+        69          39.1829       NO       
+        70          36.1027       NO       
+        71           33.418       NO       
+        72           31.067       NO       
+        80          42.7305       NO       
+        81          39.1829       NO       
+        82          36.1027       NO       
+        83           33.418       NO       
+        84           31.067       NO       
+        92          42.7305       NO       
+        93          39.1829       NO       
+        94          36.1027       NO       
+        95           33.418       NO       
+        96           31.067       NO       
+       104          42.7305       NO       
+       105          39.1829       NO       
+       106          36.1027       NO       
+       107           33.418       NO       
+       108           31.067       NO       
+       116          42.7305       NO       
+       117          39.1829       NO       
+       118          36.1027       NO       
+       119           33.418       NO       
+       120           31.067       NO       
+       128          42.7305       NO       
+       129          39.1829       NO       
+       130          36.1027       NO       
+       131           33.418       NO       
+       132           31.067       NO       
+       140          42.7305       NO       
+       141          39.1829       NO       
+       142          36.1027       NO       
+       143           33.418       NO       
+       144           31.067       NO       
+       145          30.9825       NO       
+       146          33.1307       NO       
+       147          35.5577       NO       
+       148          38.3108       NO       
+       149          41.4447       NO       
+       158          30.9825       NO       
+       159          33.1307       NO       
+       160          35.5577       NO       
+       161          38.3108       NO       
+       162          41.4447       NO       
+       171          30.9825       NO       
+       172          33.1307       NO       
+       173          35.5577       NO       
+       174          38.3108       NO       
+       175          41.4447       NO       
+       184          30.9825       NO       
+       185          33.1307       NO       
+       186          35.5577       NO       
+       187          38.3108       NO       
+       188          41.4447       NO       
+       197          30.9825       NO       
+       198          33.1307       NO       
+       199          35.5577       NO       
+       200          38.3108       NO       
+       201          41.4447       NO       
+       210          30.9825       NO       
+       211          33.1307       NO       
+       212          35.5577       NO       
+       213          38.3108       NO       
+       214          41.4447       NO       
+       223          30.9825       NO       
+       224          33.1307       NO       
+       225          35.5577       NO       
+       226          38.3108       NO       
+       227          41.4447       NO       
+       236          30.9825       NO       
+       237          33.1307       NO       
+       238          35.5577       NO       
+       239          38.3108       NO       
+       240          41.4447       NO       
+       249          30.9825       NO       
+       250          33.1307       NO       
+       251          35.5577       NO       
+       252          38.3108       NO       
+       253          41.4447       NO       
+       262          30.9825       NO       
+       263          33.1307       NO       
+       264          35.5577       NO       
+       265          38.3108       NO       
+       266          41.4447       NO       
+       275          30.9825       NO       
+       276          33.1307       NO       
+       277          35.5577       NO       
+       278          38.3108       NO       
+       279          41.4447       NO       
+       288          30.9825       NO       
+       289          33.1307       NO       
+       290          35.5577       NO       
+       291          38.3108       NO       
+       292          41.4447       NO       
+       328              30.       NO       
+       329              30.       NO       
+       330              30.       NO       
+       331              30.       NO       
+       332              30.       NO       
+       333              30.       NO       
+       334              30.       NO       
+       335              30.       NO       
+       336              30.       NO       
+       337              30.       NO       
+       338              30.       NO       
+       339              30.       NO       
+       340              30.       NO       
+       341              30.       NO       
+       342              30.       NO       
+       343              30.       NO       
+       344              30.       NO       
+       345              30.       NO       
+       346              30.       NO       
+       347              30.       NO       
+       348              30.       NO       
+       349              30.       NO       
+       350              30.       NO       
+       351              30.       NO       
+       514              30.       NO       
+       515              30.       NO       
+       516              30.       NO       
+       517              30.       NO       
+       518              30.       NO       
+       519              30.       NO       
+       520              30.       NO       
+       521              30.       NO       
+       522              30.       NO       
+       523              30.       NO       
+       524              30.       NO       
+       525              30.       NO       
+       526              30.       NO       
+       527              30.       NO       
+       528              30.       NO       
+       529              30.       NO       
+       530              30.       NO       
+       531              30.       NO       
+       532              30.       NO       
+       533              30.       NO       
+       534              30.       NO       
+       535              30.       NO       
+       536              30.       NO       
+       537              30.       NO       
+       538              30.       NO       
+       539              30.       NO       
+       540              30.       NO       
+       541              30.       NO       
+       542              30.       NO       
+       543              30.       NO       
+       544              30.       NO       
+       545              30.       NO       
+       546              30.       NO       
+       547              30.       NO       
+       548              30.       NO       
+       549              30.       NO       
+       550              30.       NO       
+       551              30.       NO       
+       552              30.       NO       
+       553              30.       NO       
+       554              30.       NO       
+       555              30.       NO       
+       556              30.       NO       
+       557              30.       NO       
+       558              30.       NO       
+       559              30.       NO       
+       560              30.       NO       
+       561              30.       NO       
+       562              30.       NO       
+       563              30.       NO       
+       564              30.       NO       
+       565              30.       NO       
+       566              30.       NO       
+       567              30.       NO       
+       568              30.       NO       
+       569              30.       NO       
+       570              30.       NO       
+       571              30.       NO       
+       572              30.       NO       
+       573              30.       NO       
+       574              30.       NO       
+       575              30.       NO       
+       576              30.       NO       
+       577              30.       NO       
+       578              30.       NO       
+       579              30.       NO       
+       580              30.       NO       
+       581              30.       NO       
+       582              30.       NO       
+       583              30.       NO       
+       584              30.       NO       
+       585              30.       NO       
+       586              30.       NO       
+       587              30.       NO       
+       588              30.       NO       
+       589              30.       NO       
+       590              30.       NO       
+       591              30.       NO       
+       592              30.       NO       
+       593              30.       NO       
+       594              30.       NO       
+       595              30.       NO       
+       596              30.       NO       
+       597              30.       NO       
+       598              30.       NO       
+       599              30.       NO       
+       600              30.       NO       
+       601              30.       NO       
+       602              30.       NO       
+       603              30.       NO       
+       604              30.       NO       
+       605              30.       NO       
+       606              30.       NO       
+       607              30.       NO       
+       608              30.       NO       
+       609              30.       NO       
+       610              30.       NO       
+       611              30.       NO       
+       612              30.       NO       
+       613              30.       NO       
+       614              30.       NO       
+       615              30.       NO       
+       616              30.       NO       
+       617              30.       NO       
+       618              30.       NO       
+       619              30.       NO       
+       620              30.       NO       
+       621              30.       NO       
+       622              30.       NO       
+       623              30.       NO       
+       624              30.       NO       
+       625              30.       NO       
+       626              30.       NO       
+       627              30.       NO       
+       628              30.       NO       
+       629              30.       NO       
+       630              30.       NO       
+       631              30.       NO       
+       632              30.       NO       
+       633              30.       NO       
+       634              30.       NO       
+       635              30.       NO       
+       636              30.       NO       
+       637              30.       NO       
+       638              30.       NO       
+       639              30.       NO       
+       640              30.       NO       
+       641              30.       NO       
+       642              30.       NO       
+       643              30.       NO       
+       644              30.       NO       
+       645              30.       NO       
+       646              30.       NO       
+       647              30.       NO       
+       648              30.       NO       
+       649              30.       NO       
+       650              30.       NO       
+       651              30.       NO       
+       652              30.       NO       
+       653              30.       NO       
+       654              30.       NO       
+       655              30.       NO       
+       656              30.       NO       
+       657              30.       NO       
+       665          42.7305       NO       
+       666          39.1829       NO       
+       667          36.1027       NO       
+       668           33.418       NO       
+       669           31.067       NO       
+       677          42.7305       NO       
+       678          39.1829       NO       
+       679          36.1027       NO       
+       680           33.418       NO       
+       681           31.067       NO       
+       689          42.7305       NO       
+       690          39.1829       NO       
+       691          36.1027       NO       
+       692           33.418       NO       
+       693           31.067       NO       
+       701          42.7305       NO       
+       702          39.1829       NO       
+       703          36.1027       NO       
+       704           33.418       NO       
+       705           31.067       NO       
+       713          42.7305       NO       
+       714          39.1829       NO       
+       715          36.1027       NO       
+       716           33.418       NO       
+       717           31.067       NO       
+       725          42.7305       NO       
+       726          39.1829       NO       
+       727          36.1027       NO       
+       728           33.418       NO       
+       729           31.067       NO       
+       737          42.7305       NO       
+       738          39.1829       NO       
+       739          36.1027       NO       
+       740           33.418       NO       
+       741           31.067       NO       
+       749          42.7305       NO       
+       750          39.1829       NO       
+       751          36.1027       NO       
+       752           33.418       NO       
+       753           31.067       NO       
+       761          42.7305       NO       
+       762          39.1829       NO       
+       763          36.1027       NO       
+       764           33.418       NO       
+       765           31.067       NO       
+       773          42.7305       NO       
+       774          39.1829       NO       
+       775          36.1027       NO       
+       776           33.418       NO       
+       777           31.067       NO       
+       785          42.7305       NO       
+       786          39.1829       NO       
+       787          36.1027       NO       
+       788           33.418       NO       
+       789           31.067       NO       
+       797          42.7305       NO       
+       798          39.1829       NO       
+       799          36.1027       NO       
+       800           33.418       NO       
+       801           31.067       NO       
+       802          30.9825       NO       
+       803          33.1307       NO       
+       804          35.5577       NO       
+       805          38.3108       NO       
+       806          41.4447       NO       
+       815          30.9825       NO       
+       816          33.1307       NO       
+       817          35.5577       NO       
+       818          38.3108       NO       
+       819          41.4447       NO       
+       828          30.9825       NO       
+       829          33.1307       NO       
+       830          35.5577       NO       
+       831          38.3108       NO       
+       832          41.4447       NO       
+       841          30.9825       NO       
+       842          33.1307       NO       
+       843          35.5577       NO       
+       844          38.3108       NO       
+       845          41.4447       NO       
+       854          30.9825       NO       
+       855          33.1307       NO       
+       856          35.5577       NO       
+       857          38.3108       NO       
+       858          41.4447       NO       
+       867          30.9825       NO       
+       868          33.1307       NO       
+       869          35.5577       NO       
+       870          38.3108       NO       
+       871          41.4447       NO       
+       880          30.9825       NO       
+       881          33.1307       NO       
+       882          35.5577       NO       
+       883          38.3108       NO       
+       884          41.4447       NO       
+       893          30.9825       NO       
+       894          33.1307       NO       
+       895          35.5577       NO       
+       896          38.3108       NO       
+       897          41.4447       NO       
+       906          30.9825       NO       
+       907          33.1307       NO       
+       908          35.5577       NO       
+       909          38.3108       NO       
+       910          41.4447       NO       
+       919          30.9825       NO       
+       920          33.1307       NO       
+       921          35.5577       NO       
+       922          38.3108       NO       
+       923          41.4447       NO       
+       932          30.9825       NO       
+       933          33.1307       NO       
+       934          35.5577       NO       
+       935          38.3108       NO       
+       936          41.4447       NO       
+       945          30.9825       NO       
+       946          33.1307       NO       
+       947          35.5577       NO       
+       948          38.3108       NO       
+       949          41.4447       NO       
+       985              30.       NO       
+       986              30.       NO       
+       987              30.       NO       
+       988              30.       NO       
+       989              30.       NO       
+       990              30.       NO       
+       991              30.       NO       
+       992              30.       NO       
+       993              30.       NO       
+       994              30.       NO       
+       995              30.       NO       
+       996              30.       NO       
+       997              30.       NO       
+       998              30.       NO       
+       999              30.       NO       
+      1000              30.       NO       
+      1001              30.       NO       
+      1002              30.       NO       
+      1003              30.       NO       
+      1004              30.       NO       
+      1005              30.       NO       
+      1006              30.       NO       
+      1007              30.       NO       
+      1008              30.       NO       
+      1171              30.       NO       
+      1172              30.       NO       
+      1173              30.       NO       
+      1174              30.       NO       
+      1175              30.       NO       
+      1176              30.       NO       
+      1177              30.       NO       
+      1178              30.       NO       
+      1179              30.       NO       
+      1180              30.       NO       
+      1181              30.       NO       
+      1182              30.       NO       
+      1183              30.       NO       
+      1184              30.       NO       
+      1185              30.       NO       
+      1186              30.       NO       
+      1187              30.       NO       
+      1188              30.       NO       
+      1189              30.       NO       
+      1190              30.       NO       
+      1191              30.       NO       
+      1192              30.       NO       
+      1193              30.       NO       
+      1194              30.       NO       
+      1195              30.       NO       
+      1196              30.       NO       
+      1197              30.       NO       
+      1198              30.       NO       
+      1199              30.       NO       
+      1200              30.       NO       
+      1201              30.       NO       
+      1202              30.       NO       
+      1203              30.       NO       
+      1204              30.       NO       
+      1205              30.       NO       
+      1206              30.       NO       
+      1207              30.       NO       
+      1208              30.       NO       
+      1209              30.       NO       
+      1210              30.       NO       
+      1211              30.       NO       
+      1212              30.       NO       
+      1213              30.       NO       
+      1214              30.       NO       
+      1215              30.       NO       
+      1216              30.       NO       
+      1217              30.       NO       
+      1218              30.       NO       
+      1219              30.       NO       
+      1220              30.       NO       
+      1221              30.       NO       
+      1222              30.       NO       
+      1223              30.       NO       
+      1224              30.       NO       
+      1225              30.       NO       
+      1226              30.       NO       
+      1227              30.       NO       
+      1228              30.       NO       
+      1229              30.       NO       
+      1230              30.       NO       
+      1231              30.       NO       
+      1232              30.       NO       
+      1233              30.       NO       
+      1234              30.       NO       
+      1235              30.       NO       
+      1236              30.       NO       
+      1237              30.       NO       
+      1238              30.       NO       
+      1239              30.       NO       
+      1240              30.       NO       
+      1241              30.       NO       
+      1242              30.       NO       
+      1243              30.       NO       
+      1244              30.       NO       
+      1245              30.       NO       
+      1246              30.       NO       
+      1247              30.       NO       
+      1248              30.       NO       
+      1249              30.       NO       
+      1250              30.       NO       
+      1251              30.       NO       
+      1252              30.       NO       
+      1253              30.       NO       
+      1254              30.       NO       
+      1255              30.       NO       
+      1256              30.       NO       
+      1257              30.       NO       
+      1258              30.       NO       
+      1259              30.       NO       
+      1260              30.       NO       
+      1261              30.       NO       
+      1262              30.       NO       
+      1263              30.       NO       
+      1264              30.       NO       
+      1265              30.       NO       
+      1266              30.       NO       
+      1267              30.       NO       
+      1268              30.       NO       
+      1269              30.       NO       
+      1270              30.       NO       
+      1271              30.       NO       
+      1272              30.       NO       
+      1273              30.       NO       
+      1274              30.       NO       
+      1275              30.       NO       
+      1276              30.       NO       
+      1277              30.       NO       
+      1278              30.       NO       
+      1279              30.       NO       
+      1280              30.       NO       
+      1281              30.       NO       
+      1282              30.       NO       
+      1283              30.       NO       
+      1284              30.       NO       
+      1285              30.       NO       
+      1286              30.       NO       
+      1287              30.       NO       
+      1288              30.       NO       
+      1289              30.       NO       
+      1290              30.       NO       
+      1291              30.       NO       
+      1292              30.       NO       
+      1293              30.       NO       
+      1294              30.       NO       
+      1295              30.       NO       
+      1296              30.       NO       
+      1297              30.       NO       
+      1298              30.       NO       
+      1299              30.       NO       
+      1300              30.       NO       
+      1301              30.       NO       
+      1302              30.       NO       
+      1303              30.       NO       
+      1304              30.       NO       
+      1305              30.       NO       
+      1306              30.       NO       
+      1307              30.       NO       
+      1308              30.       NO       
+      1309              30.       NO       
+      1310              30.       NO       
+      1311              30.       NO       
+      1312              30.       NO       
+      1313              30.       NO       
+      1314              30.       NO       
+      1322          42.7305       NO       
+      1323          39.1829       NO       
+      1324          36.1027       NO       
+      1325           33.418       NO       
+      1326           31.067       NO       
+      1334          42.7305       NO       
+      1335          39.1829       NO       
+      1336          36.1027       NO       
+      1337           33.418       NO       
+      1338           31.067       NO       
+      1346          42.7305       NO       
+      1347          39.1829       NO       
+      1348          36.1027       NO       
+      1349           33.418       NO       
+      1350           31.067       NO       
+      1358          42.7305       NO       
+      1359          39.1829       NO       
+      1360          36.1027       NO       
+      1361           33.418       NO       
+      1362           31.067       NO       
+      1370          42.7305       NO       
+      1371          39.1829       NO       
+      1372          36.1027       NO       
+      1373           33.418       NO       
+      1374           31.067       NO       
+      1382          42.7305       NO       
+      1383          39.1829       NO       
+      1384          36.1027       NO       
+      1385           33.418       NO       
+      1386           31.067       NO       
+      1394          42.7305       NO       
+      1395          39.1829       NO       
+      1396          36.1027       NO       
+      1397           33.418       NO       
+      1398           31.067       NO       
+      1406          42.7305       NO       
+      1407          39.1829       NO       
+      1408          36.1027       NO       
+      1409           33.418       NO       
+      1410           31.067       NO       
+      1418          42.7305       NO       
+      1419          39.1829       NO       
+      1420          36.1027       NO       
+      1421           33.418       NO       
+      1422           31.067       NO       
+      1430          42.7305       NO       
+      1431          39.1829       NO       
+      1432          36.1027       NO       
+      1433           33.418       NO       
+      1434           31.067       NO       
+      1442          42.7305       NO       
+      1443          39.1829       NO       
+      1444          36.1027       NO       
+      1445           33.418       NO       
+      1446           31.067       NO       
+      1454          42.7305       NO       
+      1455          39.1829       NO       
+      1456          36.1027       NO       
+      1457           33.418       NO       
+      1458           31.067       NO       
+      1459          30.9825       NO       
+      1460          33.1307       NO       
+      1461          35.5577       NO       
+      1462          38.3108       NO       
+      1463          41.4447       NO       
+      1472          30.9825       NO       
+      1473          33.1307       NO       
+      1474          35.5577       NO       
+      1475          38.3108       NO       
+      1476          41.4447       NO       
+      1485          30.9825       NO       
+      1486          33.1307       NO       
+      1487          35.5577       NO       
+      1488          38.3108       NO       
+      1489          41.4447       NO       
+      1498          30.9825       NO       
+      1499          33.1307       NO       
+      1500          35.5577       NO       
+      1501          38.3108       NO       
+      1502          41.4447       NO       
+      1511          30.9825       NO       
+      1512          33.1307       NO       
+      1513          35.5577       NO       
+      1514          38.3108       NO       
+      1515          41.4447       NO       
+      1524          30.9825       NO       
+      1525          33.1307       NO       
+      1526          35.5577       NO       
+      1527          38.3108       NO       
+      1528          41.4447       NO       
+      1537          30.9825       NO       
+      1538          33.1307       NO       
+      1539          35.5577       NO       
+      1540          38.3108       NO       
+      1541          41.4447       NO       
+      1550          30.9825       NO       
+      1551          33.1307       NO       
+      1552          35.5577       NO       
+      1553          38.3108       NO       
+      1554          41.4447       NO       
+      1563          30.9825       NO       
+      1564          33.1307       NO       
+      1565          35.5577       NO       
+      1566          38.3108       NO       
+      1567          41.4447       NO       
+      1576          30.9825       NO       
+      1577          33.1307       NO       
+      1578          35.5577       NO       
+      1579          38.3108       NO       
+      1580          41.4447       NO       
+      1589          30.9825       NO       
+      1590          33.1307       NO       
+      1591          35.5577       NO       
+      1592          38.3108       NO       
+      1593          41.4447       NO       
+      1602          30.9825       NO       
+      1603          33.1307       NO       
+      1604          35.5577       NO       
+      1605          38.3108       NO       
+      1606          41.4447       NO       
+      1642              30.       NO       
+      1643              30.       NO       
+      1644              30.       NO       
+      1645              30.       NO       
+      1646              30.       NO       
+      1647              30.       NO       
+      1648              30.       NO       
+      1649              30.       NO       
+      1650              30.       NO       
+      1651              30.       NO       
+      1652              30.       NO       
+      1653              30.       NO       
+      1654              30.       NO       
+      1655              30.       NO       
+      1656              30.       NO       
+      1657              30.       NO       
+      1658              30.       NO       
+      1659              30.       NO       
+      1660              30.       NO       
+      1661              30.       NO       
+      1662              30.       NO       
+      1663              30.       NO       
+      1664              30.       NO       
+      1665              30.       NO       
+      1828              30.       NO       
+      1829              30.       NO       
+      1830              30.       NO       
+      1831              30.       NO       
+      1832              30.       NO       
+      1833              30.       NO       
+      1834              30.       NO       
+      1835              30.       NO       
+      1836              30.       NO       
+      1837              30.       NO       
+      1838              30.       NO       
+      1839              30.       NO       
+      1840              30.       NO       
+      1841              30.       NO       
+      1842              30.       NO       
+      1843              30.       NO       
+      1844              30.       NO       
+      1845              30.       NO       
+      1846              30.       NO       
+      1847              30.       NO       
+      1848              30.       NO       
+      1849              30.       NO       
+      1850              30.       NO       
+      1851              30.       NO       
+      1852              30.       NO       
+      1853              30.       NO       
+      1854              30.       NO       
+      1855              30.       NO       
+      1856              30.       NO       
+      1857              30.       NO       
+      1858              30.       NO       
+      1859              30.       NO       
+      1860              30.       NO       
+      1861              30.       NO       
+      1862              30.       NO       
+      1863              30.       NO       
+      1864              30.       NO       
+      1865              30.       NO       
+      1866              30.       NO       
+      1867              30.       NO       
+      1868              30.       NO       
+      1869              30.       NO       
+      1870              30.       NO       
+      1871              30.       NO       
+      1872              30.       NO       
+      1873              30.       NO       
+      1874              30.       NO       
+      1875              30.       NO       
+      1876              30.       NO       
+      1877              30.       NO       
+      1878              30.       NO       
+      1879              30.       NO       
+      1880              30.       NO       
+      1881              30.       NO       
+      1882              30.       NO       
+      1883              30.       NO       
+      1884              30.       NO       
+      1885              30.       NO       
+      1886              30.       NO       
+      1887              30.       NO       
+      1888              30.       NO       
+      1889              30.       NO       
+      1890              30.       NO       
+      1891              30.       NO       
+      1892              30.       NO       
+      1893              30.       NO       
+      1894              30.       NO       
+      1895              30.       NO       
+      1896              30.       NO       
+      1897              30.       NO       
+      1898              30.       NO       
+      1899              30.       NO       
+      1900              30.       NO       
+      1901              30.       NO       
+      1902              30.       NO       
+      1903              30.       NO       
+      1904              30.       NO       
+      1905              30.       NO       
+      1906              30.       NO       
+      1907              30.       NO       
+      1908              30.       NO       
+      1909              30.       NO       
+      1910              30.       NO       
+      1911              30.       NO       
+      1912              30.       NO       
+      1913              30.       NO       
+      1914              30.       NO       
+      1915              30.       NO       
+      1916              30.       NO       
+      1917              30.       NO       
+      1918              30.       NO       
+      1919              30.       NO       
+      1920              30.       NO       
+      1921              30.       NO       
+      1922              30.       NO       
+      1923              30.       NO       
+      1924              30.       NO       
+      1925              30.       NO       
+      1926              30.       NO       
+      1927              30.       NO       
+      1928              30.       NO       
+      1929              30.       NO       
+      1930              30.       NO       
+      1931              30.       NO       
+      1932              30.       NO       
+      1933              30.       NO       
+      1934              30.       NO       
+      1935              30.       NO       
+      1936              30.       NO       
+      1937              30.       NO       
+      1938              30.       NO       
+      1939              30.       NO       
+      1940              30.       NO       
+      1941              30.       NO       
+      1942              30.       NO       
+      1943              30.       NO       
+      1944              30.       NO       
+      1945              30.       NO       
+      1946              30.       NO       
+      1947              30.       NO       
+      1948              30.       NO       
+      1949              30.       NO       
+      1950              30.       NO       
+      1951              30.       NO       
+      1952              30.       NO       
+      1953              30.       NO       
+      1954              30.       NO       
+      1955              30.       NO       
+      1956              30.       NO       
+      1957              30.       NO       
+      1958              30.       NO       
+      1959              30.       NO       
+      1960              30.       NO       
+      1961              30.       NO       
+      1962              30.       NO       
+      1963              30.       NO       
+      1964              30.       NO       
+      1965              30.       NO       
+      1966              30.       NO       
+      1967              30.       NO       
+      1968              30.       NO       
+      1969              30.       NO       
+      1970              30.       NO       
+      1971              30.       NO       
+      1979          42.7305       NO       
+      1980          39.1829       NO       
+      1981          36.1027       NO       
+      1982           33.418       NO       
+      1983           31.067       NO       
+      1991          42.7305       NO       
+      1992          39.1829       NO       
+      1993          36.1027       NO       
+      1994           33.418       NO       
+      1995           31.067       NO       
+      2003          42.7305       NO       
+      2004          39.1829       NO       
+      2005          36.1027       NO       
+      2006           33.418       NO       
+      2007           31.067       NO       
+      2015          42.7305       NO       
+      2016          39.1829       NO       
+      2017          36.1027       NO       
+      2018           33.418       NO       
+      2019           31.067       NO       
+      2027          42.7305       NO       
+      2028          39.1829       NO       
+      2029          36.1027       NO       
+      2030           33.418       NO       
+      2031           31.067       NO       
+      2039          42.7305       NO       
+      2040          39.1829       NO       
+      2041          36.1027       NO       
+      2042           33.418       NO       
+      2043           31.067       NO       
+      2051          42.7305       NO       
+      2052          39.1829       NO       
+      2053          36.1027       NO       
+      2054           33.418       NO       
+      2055           31.067       NO       
+      2063          42.7305       NO       
+      2064          39.1829       NO       
+      2065          36.1027       NO       
+      2066           33.418       NO       
+      2067           31.067       NO       
+      2075          42.7305       NO       
+      2076          39.1829       NO       
+      2077          36.1027       NO       
+      2078           33.418       NO       
+      2079           31.067       NO       
+      2087          42.7305       NO       
+      2088          39.1829       NO       
+      2089          36.1027       NO       
+      2090           33.418       NO       
+      2091           31.067       NO       
+      2099          42.7305       NO       
+      2100          39.1829       NO       
+      2101          36.1027       NO       
+      2102           33.418       NO       
+      2103           31.067       NO       
+      2111          42.7305       NO       
+      2112          39.1829       NO       
+      2113          36.1027       NO       
+      2114           33.418       NO       
+      2115           31.067       NO       
+      2116          30.9825       NO       
+      2117          33.1307       NO       
+      2118          35.5577       NO       
+      2119          38.3108       NO       
+      2120          41.4447       NO       
+      2129          30.9825       NO       
+      2130          33.1307       NO       
+      2131          35.5577       NO       
+      2132          38.3108       NO       
+      2133          41.4447       NO       
+      2142          30.9825       NO       
+      2143          33.1307       NO       
+      2144          35.5577       NO       
+      2145          38.3108       NO       
+      2146          41.4447       NO       
+      2155          30.9825       NO       
+      2156          33.1307       NO       
+      2157          35.5577       NO       
+      2158          38.3108       NO       
+      2159          41.4447       NO       
+      2168          30.9825       NO       
+      2169          33.1307       NO       
+      2170          35.5577       NO       
+      2171          38.3108       NO       
+      2172          41.4447       NO       
+      2181          30.9825       NO       
+      2182          33.1307       NO       
+      2183          35.5577       NO       
+      2184          38.3108       NO       
+      2185          41.4447       NO       
+      2194          30.9825       NO       
+      2195          33.1307       NO       
+      2196          35.5577       NO       
+      2197          38.3108       NO       
+      2198          41.4447       NO       
+      2207          30.9825       NO       
+      2208          33.1307       NO       
+      2209          35.5577       NO       
+      2210          38.3108       NO       
+      2211          41.4447       NO       
+      2220          30.9825       NO       
+      2221          33.1307       NO       
+      2222          35.5577       NO       
+      2223          38.3108       NO       
+      2224          41.4447       NO       
+      2233          30.9825       NO       
+      2234          33.1307       NO       
+      2235          35.5577       NO       
+      2236          38.3108       NO       
+      2237          41.4447       NO       
+      2246          30.9825       NO       
+      2247          33.1307       NO       
+      2248          35.5577       NO       
+      2249          38.3108       NO       
+      2250          41.4447       NO       
+      2259          30.9825       NO       
+      2260          33.1307       NO       
+      2261          35.5577       NO       
+      2262          38.3108       NO       
+      2263          41.4447       NO       
+      2299              30.       NO       
+      2300              30.       NO       
+      2301              30.       NO       
+      2302              30.       NO       
+      2303              30.       NO       
+      2304              30.       NO       
+      2305              30.       NO       
+      2306              30.       NO       
+      2307              30.       NO       
+      2308              30.       NO       
+      2309              30.       NO       
+      2310              30.       NO       
+      2311              30.       NO       
+      2312              30.       NO       
+      2313              30.       NO       
+      2314              30.       NO       
+      2315              30.       NO       
+      2316              30.       NO       
+      2317              30.       NO       
+      2318              30.       NO       
+      2319              30.       NO       
+      2320              30.       NO       
+      2321              30.       NO       
+      2322              30.       NO       
+      2485              30.       NO       
+      2486              30.       NO       
+      2487              30.       NO       
+      2488              30.       NO       
+      2489              30.       NO       
+      2490              30.       NO       
+      2491              30.       NO       
+      2492              30.       NO       
+      2493              30.       NO       
+      2494              30.       NO       
+      2495              30.       NO       
+      2496              30.       NO       
+      2497              30.       NO       
+      2498              30.       NO       
+      2499              30.       NO       
+      2500              30.       NO       
+      2501              30.       NO       
+      2502              30.       NO       
+      2503              30.       NO       
+      2504              30.       NO       
+      2505              30.       NO       
+      2506              30.       NO       
+      2507              30.       NO       
+      2508              30.       NO       
+      2509              30.       NO       
+      2510              30.       NO       
+      2511              30.       NO       
+      2512              30.       NO       
+      2513              30.       NO       
+      2514              30.       NO       
+      2515              30.       NO       
+      2516              30.       NO       
+      2517              30.       NO       
+      2518              30.       NO       
+      2519              30.       NO       
+      2520              30.       NO       
+      2521              30.       NO       
+      2522              30.       NO       
+      2523              30.       NO       
+      2524              30.       NO       
+      2525              30.       NO       
+      2526              30.       NO       
+      2527              30.       NO       
+      2528              30.       NO       
+      2529              30.       NO       
+      2530              30.       NO       
+      2531              30.       NO       
+      2532              30.       NO       
+      2533              30.       NO       
+      2534              30.       NO       
+      2535              30.       NO       
+      2536              30.       NO       
+      2537              30.       NO       
+      2538              30.       NO       
+      2539              30.       NO       
+      2540              30.       NO       
+      2541              30.       NO       
+      2542              30.       NO       
+      2543              30.       NO       
+      2544              30.       NO       
+      2545              30.       NO       
+      2546              30.       NO       
+      2547              30.       NO       
+      2548              30.       NO       
+      2549              30.       NO       
+      2550              30.       NO       
+      2551              30.       NO       
+      2552              30.       NO       
+      2553              30.       NO       
+      2554              30.       NO       
+      2555              30.       NO       
+      2556              30.       NO       
+      2557              30.       NO       
+      2558              30.       NO       
+      2559              30.       NO       
+      2560              30.       NO       
+      2561              30.       NO       
+      2562              30.       NO       
+      2563              30.       NO       
+      2564              30.       NO       
+      2565              30.       NO       
+      2566              30.       NO       
+      2567              30.       NO       
+      2568              30.       NO       
+      2569              30.       NO       
+      2570              30.       NO       
+      2571              30.       NO       
+      2572              30.       NO       
+      2573              30.       NO       
+      2574              30.       NO       
+      2575              30.       NO       
+      2576              30.       NO       
+      2577              30.       NO       
+      2578              30.       NO       
+      2579              30.       NO       
+      2580              30.       NO       
+      2581              30.       NO       
+      2582              30.       NO       
+      2583              30.       NO       
+      2584              30.       NO       
+      2585              30.       NO       
+      2586              30.       NO       
+      2587              30.       NO       
+      2588              30.       NO       
+      2589              30.       NO       
+      2590              30.       NO       
+      2591              30.       NO       
+      2592              30.       NO       
+      2593              30.       NO       
+      2594              30.       NO       
+      2595              30.       NO       
+      2596              30.       NO       
+      2597              30.       NO       
+      2598              30.       NO       
+      2599              30.       NO       
+      2600              30.       NO       
+      2601              30.       NO       
+      2602              30.       NO       
+      2603              30.       NO       
+      2604              30.       NO       
+      2605              30.       NO       
+      2606              30.       NO       
+      2607              30.       NO       
+      2608              30.       NO       
+      2609              30.       NO       
+      2610              30.       NO       
+      2611              30.       NO       
+      2612              30.       NO       
+      2613              30.       NO       
+      2614              30.       NO       
+      2615              30.       NO       
+      2616              30.       NO       
+      2617              30.       NO       
+      2618              30.       NO       
+      2619              30.       NO       
+      2620              30.       NO       
+      2621              30.       NO       
+      2622              30.       NO       
+      2623              30.       NO       
+      2624              30.       NO       
+      2625              30.       NO       
+      2626              30.       NO       
+      2627              30.       NO       
+      2628              30.       NO       
+      2636          42.7305       NO       
+      2637          39.1829       NO       
+      2638          36.1027       NO       
+      2639           33.418       NO       
+      2640           31.067       NO       
+      2648          42.7305       NO       
+      2649          39.1829       NO       
+      2650          36.1027       NO       
+      2651           33.418       NO       
+      2652           31.067       NO       
+      2660          42.7305       NO       
+      2661          39.1829       NO       
+      2662          36.1027       NO       
+      2663           33.418       NO       
+      2664           31.067       NO       
+      2672          42.7305       NO       
+      2673          39.1829       NO       
+      2674          36.1027       NO       
+      2675           33.418       NO       
+      2676           31.067       NO       
+      2684          42.7305       NO       
+      2685          39.1829       NO       
+      2686          36.1027       NO       
+      2687           33.418       NO       
+      2688           31.067       NO       
+      2696          42.7305       NO       
+      2697          39.1829       NO       
+      2698          36.1027       NO       
+      2699           33.418       NO       
+      2700           31.067       NO       
+      2708          42.7305       NO       
+      2709          39.1829       NO       
+      2710          36.1027       NO       
+      2711           33.418       NO       
+      2712           31.067       NO       
+      2720          42.7305       NO       
+      2721          39.1829       NO       
+      2722          36.1027       NO       
+      2723           33.418       NO       
+      2724           31.067       NO       
+      2732          42.7305       NO       
+      2733          39.1829       NO       
+      2734          36.1027       NO       
+      2735           33.418       NO       
+      2736           31.067       NO       
+      2744          42.7305       NO       
+      2745          39.1829       NO       
+      2746          36.1027       NO       
+      2747           33.418       NO       
+      2748           31.067       NO       
+      2756          42.7305       NO       
+      2757          39.1829       NO       
+      2758          36.1027       NO       
+      2759           33.418       NO       
+      2760           31.067       NO       
+      2768          42.7305       NO       
+      2769          39.1829       NO       
+      2770          36.1027       NO       
+      2771           33.418       NO       
+      2772           31.067       NO       
+      2773          30.9825       NO       
+      2774          33.1307       NO       
+      2775          35.5577       NO       
+      2776          38.3108       NO       
+      2777          41.4447       NO       
+      2786          30.9825       NO       
+      2787          33.1307       NO       
+      2788          35.5577       NO       
+      2789          38.3108       NO       
+      2790          41.4447       NO       
+      2799          30.9825       NO       
+      2800          33.1307       NO       
+      2801          35.5577       NO       
+      2802          38.3108       NO       
+      2803          41.4447       NO       
+      2812          30.9825       NO       
+      2813          33.1307       NO       
+      2814          35.5577       NO       
+      2815          38.3108       NO       
+      2816          41.4447       NO       
+      2825          30.9825       NO       
+      2826          33.1307       NO       
+      2827          35.5577       NO       
+      2828          38.3108       NO       
+      2829          41.4447       NO       
+      2838          30.9825       NO       
+      2839          33.1307       NO       
+      2840          35.5577       NO       
+      2841          38.3108       NO       
+      2842          41.4447       NO       
+      2851          30.9825       NO       
+      2852          33.1307       NO       
+      2853          35.5577       NO       
+      2854          38.3108       NO       
+      2855          41.4447       NO       
+      2864          30.9825       NO       
+      2865          33.1307       NO       
+      2866          35.5577       NO       
+      2867          38.3108       NO       
+      2868          41.4447       NO       
+      2877          30.9825       NO       
+      2878          33.1307       NO       
+      2879          35.5577       NO       
+      2880          38.3108       NO       
+      2881          41.4447       NO       
+      2890          30.9825       NO       
+      2891          33.1307       NO       
+      2892          35.5577       NO       
+      2893          38.3108       NO       
+      2894          41.4447       NO       
+      2903          30.9825       NO       
+      2904          33.1307       NO       
+      2905          35.5577       NO       
+      2906          38.3108       NO       
+      2907          41.4447       NO       
+      2916          30.9825       NO       
+      2917          33.1307       NO       
+      2918          35.5577       NO       
+      2919          38.3108       NO       
+      2920          41.4447       NO       
+      2956              30.       NO       
+      2957              30.       NO       
+      2958              30.       NO       
+      2959              30.       NO       
+      2960              30.       NO       
+      2961              30.       NO       
+      2962              30.       NO       
+      2963              30.       NO       
+      2964              30.       NO       
+      2965              30.       NO       
+      2966              30.       NO       
+      2967              30.       NO       
+      2968              30.       NO       
+      2969              30.       NO       
+      2970              30.       NO       
+      2971              30.       NO       
+      2972              30.       NO       
+      2973              30.       NO       
+      2974              30.       NO       
+      2975              30.       NO       
+      2976              30.       NO       
+      2977              30.       NO       
+      2978              30.       NO       
+      2979              30.       NO       
+      3142              30.       NO       
+      3143              30.       NO       
+      3144              30.       NO       
+      3145              30.       NO       
+      3146              30.       NO       
+      3147              30.       NO       
+      3148              30.       NO       
+      3149              30.       NO       
+      3150              30.       NO       
+      3151              30.       NO       
+      3152              30.       NO       
+      3153              30.       NO       
+      3154              30.       NO       
+      3155              30.       NO       
+      3156              30.       NO       
+      3157              30.       NO       
+      3158              30.       NO       
+      3159              30.       NO       
+      3160              30.       NO       
+      3161              30.       NO       
+      3162              30.       NO       
+      3163              30.       NO       
+      3164              30.       NO       
+      3165              30.       NO       
+      3166              30.       NO       
+      3167              30.       NO       
+      3168              30.       NO       
+      3169              30.       NO       
+      3170              30.       NO       
+      3171              30.       NO       
+      3172              30.       NO       
+      3173              30.       NO       
+      3174              30.       NO       
+      3175              30.       NO       
+      3176              30.       NO       
+      3177              30.       NO       
+      3178              30.       NO       
+      3179              30.       NO       
+      3180              30.       NO       
+      3181              30.       NO       
+      3182              30.       NO       
+      3183              30.       NO       
+      3184              30.       NO       
+      3185              30.       NO       
+      3186              30.       NO       
+      3187              30.       NO       
+      3188              30.       NO       
+      3189              30.       NO       
+      3190              30.       NO       
+      3191              30.       NO       
+      3192              30.       NO       
+      3193              30.       NO       
+      3194              30.       NO       
+      3195              30.       NO       
+      3196              30.       NO       
+      3197              30.       NO       
+      3198              30.       NO       
+      3199              30.       NO       
+      3200              30.       NO       
+      3201              30.       NO       
+      3202              30.       NO       
+      3203              30.       NO       
+      3204              30.       NO       
+      3205              30.       NO       
+      3206              30.       NO       
+      3207              30.       NO       
+      3208              30.       NO       
+      3209              30.       NO       
+      3210              30.       NO       
+      3211              30.       NO       
+      3212              30.       NO       
+      3213              30.       NO       
+      3214              30.       NO       
+      3215              30.       NO       
+      3216              30.       NO       
+      3217              30.       NO       
+      3218              30.       NO       
+      3219              30.       NO       
+      3220              30.       NO       
+      3221              30.       NO       
+      3222              30.       NO       
+      3223              30.       NO       
+      3224              30.       NO       
+      3225              30.       NO       
+      3226              30.       NO       
+      3227              30.       NO       
+      3228              30.       NO       
+      3229              30.       NO       
+      3230              30.       NO       
+      3231              30.       NO       
+      3232              30.       NO       
+      3233              30.       NO       
+      3234              30.       NO       
+      3235              30.       NO       
+      3236              30.       NO       
+      3237              30.       NO       
+      3238              30.       NO       
+      3239              30.       NO       
+      3240              30.       NO       
+      3241              30.       NO       
+      3242              30.       NO       
+      3243              30.       NO       
+      3244              30.       NO       
+      3245              30.       NO       
+      3246              30.       NO       
+      3247              30.       NO       
+      3248              30.       NO       
+      3249              30.       NO       
+      3250              30.       NO       
+      3251              30.       NO       
+      3252              30.       NO       
+      3253              30.       NO       
+      3254              30.       NO       
+      3255              30.       NO       
+      3256              30.       NO       
+      3257              30.       NO       
+      3258              30.       NO       
+      3259              30.       NO       
+      3260              30.       NO       
+      3261              30.       NO       
+      3262              30.       NO       
+      3263              30.       NO       
+      3264              30.       NO       
+      3265              30.       NO       
+      3266              30.       NO       
+      3267              30.       NO       
+      3268              30.       NO       
+      3269              30.       NO       
+      3270              30.       NO       
+      3271              30.       NO       
+      3272              30.       NO       
+      3273              30.       NO       
+      3274              30.       NO       
+      3275              30.       NO       
+      3276              30.       NO       
+      3277              30.       NO       
+      3278              30.       NO       
+      3279              30.       NO       
+      3280              30.       NO       
+      3281              30.       NO       
+      3282              30.       NO       
+      3283              30.       NO       
+      3284              30.       NO       
+      3285              30.       NO       
+      3293          42.7305       NO       
+      3294          39.1829       NO       
+      3295          36.1027       NO       
+      3296           33.418       NO       
+      3297           31.067       NO       
+      3305          42.7305       NO       
+      3306          39.1829       NO       
+      3307          36.1027       NO       
+      3308           33.418       NO       
+      3309           31.067       NO       
+      3317          42.7305       NO       
+      3318          39.1829       NO       
+      3319          36.1027       NO       
+      3320           33.418       NO       
+      3321           31.067       NO       
+      3329          42.7305       NO       
+      3330          39.1829       NO       
+      3331          36.1027       NO       
+      3332           33.418       NO       
+      3333           31.067       NO       
+      3341          42.7305       NO       
+      3342          39.1829       NO       
+      3343          36.1027       NO       
+      3344           33.418       NO       
+      3345           31.067       NO       
+      3353          42.7305       NO       
+      3354          39.1829       NO       
+      3355          36.1027       NO       
+      3356           33.418       NO       
+      3357           31.067       NO       
+      3365          42.7305       NO       
+      3366          39.1829       NO       
+      3367          36.1027       NO       
+      3368           33.418       NO       
+      3369           31.067       NO       
+      3377          42.7305       NO       
+      3378          39.1829       NO       
+      3379          36.1027       NO       
+      3380           33.418       NO       
+      3381           31.067       NO       
+      3389          42.7305       NO       
+      3390          39.1829       NO       
+      3391          36.1027       NO       
+      3392           33.418       NO       
+      3393           31.067       NO       
+      3401          42.7305       NO       
+      3402          39.1829       NO       
+      3403          36.1027       NO       
+      3404           33.418       NO       
+      3405           31.067       NO       
+      3413          42.7305       NO       
+      3414          39.1829       NO       
+      3415          36.1027       NO       
+      3416           33.418       NO       
+      3417           31.067       NO       
+      3425          42.7305       NO       
+      3426          39.1829       NO       
+      3427          36.1027       NO       
+      3428           33.418       NO       
+      3429           31.067       NO       
+      3430          30.9825       NO       
+      3431          33.1307       NO       
+      3432          35.5577       NO       
+      3433          38.3108       NO       
+      3434          41.4447       NO       
+      3443          30.9825       NO       
+      3444          33.1307       NO       
+      3445          35.5577       NO       
+      3446          38.3108       NO       
+      3447          41.4447       NO       
+      3456          30.9825       NO       
+      3457          33.1307       NO       
+      3458          35.5577       NO       
+      3459          38.3108       NO       
+      3460          41.4447       NO       
+      3469          30.9825       NO       
+      3470          33.1307       NO       
+      3471          35.5577       NO       
+      3472          38.3108       NO       
+      3473          41.4447       NO       
+      3482          30.9825       NO       
+      3483          33.1307       NO       
+      3484          35.5577       NO       
+      3485          38.3108       NO       
+      3486          41.4447       NO       
+      3495          30.9825       NO       
+      3496          33.1307       NO       
+      3497          35.5577       NO       
+      3498          38.3108       NO       
+      3499          41.4447       NO       
+      3508          30.9825       NO       
+      3509          33.1307       NO       
+      3510          35.5577       NO       
+      3511          38.3108       NO       
+      3512          41.4447       NO       
+      3521          30.9825       NO       
+      3522          33.1307       NO       
+      3523          35.5577       NO       
+      3524          38.3108       NO       
+      3525          41.4447       NO       
+      3534          30.9825       NO       
+      3535          33.1307       NO       
+      3536          35.5577       NO       
+      3537          38.3108       NO       
+      3538          41.4447       NO       
+      3547          30.9825       NO       
+      3548          33.1307       NO       
+      3549          35.5577       NO       
+      3550          38.3108       NO       
+      3551          41.4447       NO       
+      3560          30.9825       NO       
+      3561          33.1307       NO       
+      3562          35.5577       NO       
+      3563          38.3108       NO       
+      3564          41.4447       NO       
+      3573          30.9825       NO       
+      3574          33.1307       NO       
+      3575          35.5577       NO       
+      3576          38.3108       NO       
+      3577          41.4447       NO       
+      3613              30.       NO       
+      3614              30.       NO       
+      3615              30.       NO       
+      3616              30.       NO       
+      3617              30.       NO       
+      3618              30.       NO       
+      3619              30.       NO       
+      3620              30.       NO       
+      3621              30.       NO       
+      3622              30.       NO       
+      3623              30.       NO       
+      3624              30.       NO       
+      3625              30.       NO       
+      3626              30.       NO       
+      3627              30.       NO       
+      3628              30.       NO       
+      3629              30.       NO       
+      3630              30.       NO       
+      3631              30.       NO       
+      3632              30.       NO       
+      3633              30.       NO       
+      3634              30.       NO       
+      3635              30.       NO       
+      3636              30.       NO       
+      3799              30.       NO       
+      3800              30.       NO       
+      3801              30.       NO       
+      3802              30.       NO       
+      3803              30.       NO       
+      3804              30.       NO       
+      3805              30.       NO       
+      3806              30.       NO       
+      3807              30.       NO       
+      3808              30.       NO       
+      3809              30.       NO       
+      3810              30.       NO       
+      3811              30.       NO       
+      3812              30.       NO       
+      3813              30.       NO       
+      3814              30.       NO       
+      3815              30.       NO       
+      3816              30.       NO       
+      3817              30.       NO       
+      3818              30.       NO       
+      3819              30.       NO       
+      3820              30.       NO       
+      3821              30.       NO       
+      3822              30.       NO       
+      3823              30.       NO       
+      3824              30.       NO       
+      3825              30.       NO       
+      3826              30.       NO       
+      3827              30.       NO       
+      3828              30.       NO       
+      3829              30.       NO       
+      3830              30.       NO       
+      3831              30.       NO       
+      3832              30.       NO       
+      3833              30.       NO       
+      3834              30.       NO       
+      3835              30.       NO       
+      3836              30.       NO       
+      3837              30.       NO       
+      3838              30.       NO       
+      3839              30.       NO       
+      3840              30.       NO       
+      3841              30.       NO       
+      3842              30.       NO       
+      3843              30.       NO       
+      3844              30.       NO       
+      3845              30.       NO       
+      3846              30.       NO       
+      3847              30.       NO       
+      3848              30.       NO       
+      3849              30.       NO       
+      3850              30.       NO       
+      3851              30.       NO       
+      3852              30.       NO       
+      3853              30.       NO       
+      3854              30.       NO       
+      3855              30.       NO       
+      3856              30.       NO       
+      3857              30.       NO       
+      3858              30.       NO       
+      3859              30.       NO       
+      3860              30.       NO       
+      3861              30.       NO       
+      3862              30.       NO       
+      3863              30.       NO       
+      3864              30.       NO       
+      3865              30.       NO       
+      3866              30.       NO       
+      3867              30.       NO       
+      3868              30.       NO       
+      3869              30.       NO       
+      3870              30.       NO       
+      3871              30.       NO       
+      3872              30.       NO       
+      3873              30.       NO       
+      3874              30.       NO       
+      3875              30.       NO       
+      3876              30.       NO       
+      3877              30.       NO       
+      3878              30.       NO       
+      3879              30.       NO       
+      3880              30.       NO       
+      3881              30.       NO       
+      3882              30.       NO       
+      3883              30.       NO       
+      3884              30.       NO       
+      3885              30.       NO       
+      3886              30.       NO       
+      3887              30.       NO       
+      3888              30.       NO       
+      3889              30.       NO       
+      3890              30.       NO       
+      3891              30.       NO       
+      3892              30.       NO       
+      3893              30.       NO       
+      3894              30.       NO       
+      3895              30.       NO       
+      3896              30.       NO       
+      3897              30.       NO       
+      3898              30.       NO       
+      3899              30.       NO       
+      3900              30.       NO       
+      3901              30.       NO       
+      3902              30.       NO       
+      3903              30.       NO       
+      3904              30.       NO       
+      3905              30.       NO       
+      3906              30.       NO       
+      3907              30.       NO       
+      3908              30.       NO       
+      3909              30.       NO       
+      3910              30.       NO       
+      3911              30.       NO       
+      3912              30.       NO       
+      3913              30.       NO       
+      3914              30.       NO       
+      3915              30.       NO       
+      3916              30.       NO       
+      3917              30.       NO       
+      3918              30.       NO       
+      3919              30.       NO       
+      3920              30.       NO       
+      3921              30.       NO       
+      3922              30.       NO       
+      3923              30.       NO       
+      3924              30.       NO       
+      3925              30.       NO       
+      3926              30.       NO       
+      3927              30.       NO       
+      3928              30.       NO       
+      3929              30.       NO       
+      3930              30.       NO       
+      3931              30.       NO       
+      3932              30.       NO       
+      3933              30.       NO       
+      3934              30.       NO       
+      3935              30.       NO       
+      3936              30.       NO       
+      3937              30.       NO       
+      3938              30.       NO       
+      3939              30.       NO       
+      3940              30.       NO       
+      3941              30.       NO       
+      3942              30.       NO       
+      3950          42.7305       NO       
+      3951          39.1829       NO       
+      3952          36.1027       NO       
+      3953           33.418       NO       
+      3954           31.067       NO       
+      3962          42.7305       NO       
+      3963          39.1829       NO       
+      3964          36.1027       NO       
+      3965           33.418       NO       
+      3966           31.067       NO       
+      3974          42.7305       NO       
+      3975          39.1829       NO       
+      3976          36.1027       NO       
+      3977           33.418       NO       
+      3978           31.067       NO       
+      3986          42.7305       NO       
+      3987          39.1829       NO       
+      3988          36.1027       NO       
+      3989           33.418       NO       
+      3990           31.067       NO       
+      3998          42.7305       NO       
+      3999          39.1829       NO       
+      4000          36.1027       NO       
+      4001           33.418       NO       
+      4002           31.067       NO       
+      4010          42.7305       NO       
+      4011          39.1829       NO       
+      4012          36.1027       NO       
+      4013           33.418       NO       
+      4014           31.067       NO       
+      4022          42.7305       NO       
+      4023          39.1829       NO       
+      4024          36.1027       NO       
+      4025           33.418       NO       
+      4026           31.067       NO       
+      4034          42.7305       NO       
+      4035          39.1829       NO       
+      4036          36.1027       NO       
+      4037           33.418       NO       
+      4038           31.067       NO       
+      4046          42.7305       NO       
+      4047          39.1829       NO       
+      4048          36.1027       NO       
+      4049           33.418       NO       
+      4050           31.067       NO       
+      4058          42.7305       NO       
+      4059          39.1829       NO       
+      4060          36.1027       NO       
+      4061           33.418       NO       
+      4062           31.067       NO       
+      4070          42.7305       NO       
+      4071          39.1829       NO       
+      4072          36.1027       NO       
+      4073           33.418       NO       
+      4074           31.067       NO       
+      4082          42.7305       NO       
+      4083          39.1829       NO       
+      4084          36.1027       NO       
+      4085           33.418       NO       
+      4086           31.067       NO       
+      4087          30.9825       NO       
+      4088          33.1307       NO       
+      4089          35.5577       NO       
+      4090          38.3108       NO       
+      4091          41.4447       NO       
+      4100          30.9825       NO       
+      4101          33.1307       NO       
+      4102          35.5577       NO       
+      4103          38.3108       NO       
+      4104          41.4447       NO       
+      4113          30.9825       NO       
+      4114          33.1307       NO       
+      4115          35.5577       NO       
+      4116          38.3108       NO       
+      4117          41.4447       NO       
+      4126          30.9825       NO       
+      4127          33.1307       NO       
+      4128          35.5577       NO       
+      4129          38.3108       NO       
+      4130          41.4447       NO       
+      4139          30.9825       NO       
+      4140          33.1307       NO       
+      4141          35.5577       NO       
+      4142          38.3108       NO       
+      4143          41.4447       NO       
+      4152          30.9825       NO       
+      4153          33.1307       NO       
+      4154          35.5577       NO       
+      4155          38.3108       NO       
+      4156          41.4447       NO       
+      4165          30.9825       NO       
+      4166          33.1307       NO       
+      4167          35.5577       NO       
+      4168          38.3108       NO       
+      4169          41.4447       NO       
+      4178          30.9825       NO       
+      4179          33.1307       NO       
+      4180          35.5577       NO       
+      4181          38.3108       NO       
+      4182          41.4447       NO       
+      4191          30.9825       NO       
+      4192          33.1307       NO       
+      4193          35.5577       NO       
+      4194          38.3108       NO       
+      4195          41.4447       NO       
+      4204          30.9825       NO       
+      4205          33.1307       NO       
+      4206          35.5577       NO       
+      4207          38.3108       NO       
+      4208          41.4447       NO       
+      4217          30.9825       NO       
+      4218          33.1307       NO       
+      4219          35.5577       NO       
+      4220          38.3108       NO       
+      4221          41.4447       NO       
+      4230          30.9825       NO       
+      4231          33.1307       NO       
+      4232          35.5577       NO       
+      4233          38.3108       NO       
+      4234          41.4447       NO       
+      4270              30.       NO       
+      4271              30.       NO       
+      4272              30.       NO       
+      4273              30.       NO       
+      4274              30.       NO       
+      4275              30.       NO       
+      4276              30.       NO       
+      4277              30.       NO       
+      4278              30.       NO       
+      4279              30.       NO       
+      4280              30.       NO       
+      4281              30.       NO       
+      4282              30.       NO       
+      4283              30.       NO       
+      4284              30.       NO       
+      4285              30.       NO       
+      4286              30.       NO       
+      4287              30.       NO       
+      4288              30.       NO       
+      4289              30.       NO       
+      4290              30.       NO       
+      4291              30.       NO       
+      4292              30.       NO       
+      4293              30.       NO       
+      4456              30.       NO       
+      4457              30.       NO       
+      4458              30.       NO       
+      4459              30.       NO       
+      4460              30.       NO       
+      4461              30.       NO       
+      4462              30.       NO       
+      4463              30.       NO       
+      4464              30.       NO       
+      4465              30.       NO       
+      4466              30.       NO       
+      4467              30.       NO       
+      4468              30.       NO       
+      4469              30.       NO       
+      4470              30.       NO       
+      4471              30.       NO       
+      4472              30.       NO       
+      4473              30.       NO       
+      4474              30.       NO       
+      4475              30.       NO       
+      4476              30.       NO       
+      4477              30.       NO       
+      4478              30.       NO       
+      4479              30.       NO       
+      4480              30.       NO       
+      4481              30.       NO       
+      4482              30.       NO       
+      4483              30.       NO       
+      4484              30.       NO       
+      4485              30.       NO       
+      4486              30.       NO       
+      4487              30.       NO       
+      4488              30.       NO       
+      4489              30.       NO       
+      4490              30.       NO       
+      4491              30.       NO       
+      4492              30.       NO       
+      4493              30.       NO       
+      4494              30.       NO       
+      4495              30.       NO       
+      4496              30.       NO       
+      4497              30.       NO       
+      4498              30.       NO       
+      4499              30.       NO       
+      4500              30.       NO       
+      4501              30.       NO       
+      4502              30.       NO       
+      4503              30.       NO       
+      4504              30.       NO       
+      4505              30.       NO       
+      4506              30.       NO       
+      4507              30.       NO       
+      4508              30.       NO       
+      4509              30.       NO       
+      4510              30.       NO       
+      4511              30.       NO       
+      4512              30.       NO       
+      4513              30.       NO       
+      4514              30.       NO       
+      4515              30.       NO       
+      4516              30.       NO       
+      4517              30.       NO       
+      4518              30.       NO       
+      4519              30.       NO       
+      4520              30.       NO       
+      4521              30.       NO       
+      4522              30.       NO       
+      4523              30.       NO       
+      4524              30.       NO       
+      4525              30.       NO       
+      4526              30.       NO       
+      4527              30.       NO       
+      4528              30.       NO       
+      4529              30.       NO       
+      4530              30.       NO       
+      4531              30.       NO       
+      4532              30.       NO       
+      4533              30.       NO       
+      4534              30.       NO       
+      4535              30.       NO       
+      4536              30.       NO       
+      4537              30.       NO       
+      4538              30.       NO       
+      4539              30.       NO       
+      4540              30.       NO       
+      4541              30.       NO       
+      4542              30.       NO       
+      4543              30.       NO       
+      4544              30.       NO       
+      4545              30.       NO       
+      4546              30.       NO       
+      4547              30.       NO       
+      4548              30.       NO       
+      4549              30.       NO       
+      4550              30.       NO       
+      4551              30.       NO       
+      4552              30.       NO       
+      4553              30.       NO       
+      4554              30.       NO       
+      4555              30.       NO       
+      4556              30.       NO       
+      4557              30.       NO       
+      4558              30.       NO       
+      4559              30.       NO       
+      4560              30.       NO       
+      4561              30.       NO       
+      4562              30.       NO       
+      4563              30.       NO       
+      4564              30.       NO       
+      4565              30.       NO       
+      4566              30.       NO       
+      4567              30.       NO       
+      4568              30.       NO       
+      4569              30.       NO       
+      4570              30.       NO       
+      4571              30.       NO       
+      4572              30.       NO       
+      4573              30.       NO       
+      4574              30.       NO       
+      4575              30.       NO       
+      4576              30.       NO       
+      4577              30.       NO       
+      4578              30.       NO       
+      4579              30.       NO       
+      4580              30.       NO       
+      4581              30.       NO       
+      4582              30.       NO       
+      4583              30.       NO       
+      4584              30.       NO       
+      4585              30.       NO       
+      4586              30.       NO       
+      4587              30.       NO       
+      4588              30.       NO       
+      4589              30.       NO       
+      4590              30.       NO       
+      4591              30.       NO       
+      4592              30.       NO       
+      4593              30.       NO       
+      4594              30.       NO       
+      4595              30.       NO       
+      4596              30.       NO       
+      4597              30.       NO       
+      4598              30.       NO       
+      4599              30.       NO       
+      4607          42.7305       NO       
+      4608          39.1829       NO       
+      4609          36.1027       NO       
+      4610           33.418       NO       
+      4611           31.067       NO       
+      4619          42.7305       NO       
+      4620          39.1829       NO       
+      4621          36.1027       NO       
+      4622           33.418       NO       
+      4623           31.067       NO       
+      4631          42.7305       NO       
+      4632          39.1829       NO       
+      4633          36.1027       NO       
+      4634           33.418       NO       
+      4635           31.067       NO       
+      4643          42.7305       NO       
+      4644          39.1829       NO       
+      4645          36.1027       NO       
+      4646           33.418       NO       
+      4647           31.067       NO       
+      4655          42.7305       NO       
+      4656          39.1829       NO       
+      4657          36.1027       NO       
+      4658           33.418       NO       
+      4659           31.067       NO       
+      4667          42.7305       NO       
+      4668          39.1829       NO       
+      4669          36.1027       NO       
+      4670           33.418       NO       
+      4671           31.067       NO       
+      4679          42.7305       NO       
+      4680          39.1829       NO       
+      4681          36.1027       NO       
+      4682           33.418       NO       
+      4683           31.067       NO       
+      4691          42.7305       NO       
+      4692          39.1829       NO       
+      4693          36.1027       NO       
+      4694           33.418       NO       
+      4695           31.067       NO       
+      4703          42.7305       NO       
+      4704          39.1829       NO       
+      4705          36.1027       NO       
+      4706           33.418       NO       
+      4707           31.067       NO       
+      4715          42.7305       NO       
+      4716          39.1829       NO       
+      4717          36.1027       NO       
+      4718           33.418       NO       
+      4719           31.067       NO       
+      4727          42.7305       NO       
+      4728          39.1829       NO       
+      4729          36.1027       NO       
+      4730           33.418       NO       
+      4731           31.067       NO       
+      4739          42.7305       NO       
+      4740          39.1829       NO       
+      4741          36.1027       NO       
+      4742           33.418       NO       
+      4743           31.067       NO       
+      4744          30.9825       NO       
+      4745          33.1307       NO       
+      4746          35.5577       NO       
+      4747          38.3108       NO       
+      4748          41.4447       NO       
+      4757          30.9825       NO       
+      4758          33.1307       NO       
+      4759          35.5577       NO       
+      4760          38.3108       NO       
+      4761          41.4447       NO       
+      4770          30.9825       NO       
+      4771          33.1307       NO       
+      4772          35.5577       NO       
+      4773          38.3108       NO       
+      4774          41.4447       NO       
+      4783          30.9825       NO       
+      4784          33.1307       NO       
+      4785          35.5577       NO       
+      4786          38.3108       NO       
+      4787          41.4447       NO       
+      4796          30.9825       NO       
+      4797          33.1307       NO       
+      4798          35.5577       NO       
+      4799          38.3108       NO       
+      4800          41.4447       NO       
+      4809          30.9825       NO       
+      4810          33.1307       NO       
+      4811          35.5577       NO       
+      4812          38.3108       NO       
+      4813          41.4447       NO       
+      4822          30.9825       NO       
+      4823          33.1307       NO       
+      4824          35.5577       NO       
+      4825          38.3108       NO       
+      4826          41.4447       NO       
+      4835          30.9825       NO       
+      4836          33.1307       NO       
+      4837          35.5577       NO       
+      4838          38.3108       NO       
+      4839          41.4447       NO       
+      4848          30.9825       NO       
+      4849          33.1307       NO       
+      4850          35.5577       NO       
+      4851          38.3108       NO       
+      4852          41.4447       NO       
+      4861          30.9825       NO       
+      4862          33.1307       NO       
+      4863          35.5577       NO       
+      4864          38.3108       NO       
+      4865          41.4447       NO       
+      4874          30.9825       NO       
+      4875          33.1307       NO       
+      4876          35.5577       NO       
+      4877          38.3108       NO       
+      4878          41.4447       NO       
+      4887          30.9825       NO       
+      4888          33.1307       NO       
+      4889          35.5577       NO       
+      4890          38.3108       NO       
+      4891          41.4447       NO       
+      4927              30.       NO       
+      4928              30.       NO       
+      4929              30.       NO       
+      4930              30.       NO       
+      4931              30.       NO       
+      4932              30.       NO       
+      4933              30.       NO       
+      4934              30.       NO       
+      4935              30.       NO       
+      4936              30.       NO       
+      4937              30.       NO       
+      4938              30.       NO       
+      4939              30.       NO       
+      4940              30.       NO       
+      4941              30.       NO       
+      4942              30.       NO       
+      4943              30.       NO       
+      4944              30.       NO       
+      4945              30.       NO       
+      4946              30.       NO       
+      4947              30.       NO       
+      4948              30.       NO       
+      4949              30.       NO       
+      4950              30.       NO       
+      5113              30.       NO       
+      5114              30.       NO       
+      5115              30.       NO       
+      5116              30.       NO       
+      5117              30.       NO       
+      5118              30.       NO       
+      5119              30.       NO       
+      5120              30.       NO       
+      5121              30.       NO       
+      5122              30.       NO       
+      5123              30.       NO       
+      5124              30.       NO       
+      5125              30.       NO       
+      5126              30.       NO       
+      5127              30.       NO       
+      5128              30.       NO       
+      5129              30.       NO       
+      5130              30.       NO       
+      5131              30.       NO       
+      5132              30.       NO       
+      5133              30.       NO       
+      5134              30.       NO       
+      5135              30.       NO       
+      5136              30.       NO       
+      5137              30.       NO       
+      5138              30.       NO       
+      5139              30.       NO       
+      5140              30.       NO       
+      5141              30.       NO       
+      5142              30.       NO       
+      5143              30.       NO       
+      5144              30.       NO       
+      5145              30.       NO       
+      5146              30.       NO       
+      5147              30.       NO       
+      5148              30.       NO       
+      5149              30.       NO       
+      5150              30.       NO       
+      5151              30.       NO       
+      5152              30.       NO       
+      5153              30.       NO       
+      5154              30.       NO       
+      5155              30.       NO       
+      5156              30.       NO       
+      5157              30.       NO       
+      5158              30.       NO       
+      5159              30.       NO       
+      5160              30.       NO       
+      5161              30.       NO       
+      5162              30.       NO       
+      5163              30.       NO       
+      5164              30.       NO       
+      5165              30.       NO       
+      5166              30.       NO       
+      5167              30.       NO       
+      5168              30.       NO       
+      5169              30.       NO       
+      5170              30.       NO       
+      5171              30.       NO       
+      5172              30.       NO       
+      5173              30.       NO       
+      5174              30.       NO       
+      5175              30.       NO       
+      5176              30.       NO       
+      5177              30.       NO       
+      5178              30.       NO       
+      5179              30.       NO       
+      5180              30.       NO       
+      5181              30.       NO       
+      5182              30.       NO       
+      5183              30.       NO       
+      5184              30.       NO       
+      5185              30.       NO       
+      5186              30.       NO       
+      5187              30.       NO       
+      5188              30.       NO       
+      5189              30.       NO       
+      5190              30.       NO       
+      5191              30.       NO       
+      5192              30.       NO       
+      5193              30.       NO       
+      5194              30.       NO       
+      5195              30.       NO       
+      5196              30.       NO       
+      5197              30.       NO       
+      5198              30.       NO       
+      5199              30.       NO       
+      5200              30.       NO       
+      5201              30.       NO       
+      5202              30.       NO       
+      5203              30.       NO       
+      5204              30.       NO       
+      5205              30.       NO       
+      5206              30.       NO       
+      5207              30.       NO       
+      5208              30.       NO       
+      5209              30.       NO       
+      5210              30.       NO       
+      5211              30.       NO       
+      5212              30.       NO       
+      5213              30.       NO       
+      5214              30.       NO       
+      5215              30.       NO       
+      5216              30.       NO       
+      5217              30.       NO       
+      5218              30.       NO       
+      5219              30.       NO       
+      5220              30.       NO       
+      5221              30.       NO       
+      5222              30.       NO       
+      5223              30.       NO       
+      5224              30.       NO       
+      5225              30.       NO       
+      5226              30.       NO       
+      5227              30.       NO       
+      5228              30.       NO       
+      5229              30.       NO       
+      5230              30.       NO       
+      5231              30.       NO       
+      5232              30.       NO       
+      5233              30.       NO       
+      5234              30.       NO       
+      5235              30.       NO       
+      5236              30.       NO       
+      5237              30.       NO       
+      5238              30.       NO       
+      5239              30.       NO       
+      5240              30.       NO       
+      5241              30.       NO       
+      5242              30.       NO       
+      5243              30.       NO       
+      5244              30.       NO       
+      5245              30.       NO       
+      5246              30.       NO       
+      5247              30.       NO       
+      5248              30.       NO       
+      5249              30.       NO       
+      5250              30.       NO       
+      5251              30.       NO       
+      5252              30.       NO       
+      5253              30.       NO       
+      5254              30.       NO       
+      5255              30.       NO       
+      5256              30.       NO       
+  
+  
+  *STEP, NAME=HOMOGENISATION-0, PERTURBATION
+  *OUTPUT, FIELD
+  *OUTPUT, FIELD, VARIABLE=PRESELECT
+  *OUTPUT, HISTORY, FREQUENCY=0
+  *LOAD CASE, NAME=STATE-0-E11
+  *LOAD CASE, NAME=STATE-0-E22
+  *LOAD CASE, NAME=STATE-0-E12
+  *LOAD CASE, NAME=STATE-0-K11
+  *LOAD CASE, NAME=STATE-0-K22
+  *LOAD CASE, NAME=STATE-0-K12
+  *STEP, NAME=HOMOGENISATION-0, PERTURBATION
+
+ ***WARNING: NODE SET SHEAR HAS NO MEMBERS AND WILL BE IGNORED.  NODES DEFINED 
+             IN THIS SET MAY HAVE BEEN DELETED BECAUSE THEY WERE NOT CONNECTED 
+             TO ANY ELEMENTS.
+  *STEP, NAME=HOMOGENISATION-0, PERTURBATION
+  *STATIC
+  *OUTPUT, FIELD
+
+ ***WARNING: DATACARDS ON THIS OPTION WILL BE IGNORED
+  *ELEMENT OUTPUT, DIRECTIONS=YES
+  *OUTPUT, FIELD, VARIABLE=PRESELECT
+  *OUTPUT, HISTORY, FREQUENCY=0
+  *LOAD CASE, NAME=STATE-0-E11
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-E22
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-E12
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K11
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K22
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K12
+  *BOUNDARY, OP=NEW
+  *END STEP
+
+ ***WARNING: STRAIN OUTPUT REQUEST LE IS NOT VALID FOR SOME ELEMENTS IN THIS 
+             ANALYSIS. THIS REQUEST IS SWITCHED TO THE STRAIN MEASURE, E.
+  *BOUNDARY
+  *STEP, NAME=HOMOGENISATION-0, PERTURBATION
+  *STATIC
+  *LOAD CASE, NAME=STATE-0-E11
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-E22
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-E12
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K11
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K22
+  *BOUNDARY, OP=NEW
+  *LOAD CASE, NAME=STATE-0-K12
+  *BOUNDARY, OP=NEW
+  *END STEP
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                  5256
+          NUMBER OF NODES IS                                     9880
+          NUMBER OF NODES DEFINED BY THE USER                    9880
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                29640
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.40    
+       SYSTEM TIME (SEC)    =      0.0    
+       TOTAL CPU TIME (SEC) =     0.40    
+       WALLCLOCK TIME (SEC) =            1
+1
+
+   Abaqus 2023                                  Date 07-Aug-2025   Time 19:30:11
+   For use by BRISTOL under license from Dassault Systemes or its subsidiary.
+
+                                                                                               STEP    1  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       1     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+          FIXED TIME INCREMENTS
+          TIME INCREMENT IS                                    2.220E-16
+          TIME PERIOD IS                                       2.220E-16
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+     THIS IS A LINEAR PERTURBATION STEP.
+     ALL LOADS ARE DEFINED AS CHANGE IN LOAD TO THE REFERENCE STATE
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          4.73E+09               29                139
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
+
+
+
+                              ANALYSIS COMPLETE
+                              WITH      5 WARNING MESSAGES ON THE DAT FILE
+                              AND       3 WARNING MESSAGES ON THE MSG FILE
+                                        3 WARNINGS ARE FOR NUMERICAL PROBLEMS
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.80    
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =     0.90    
+       WALLCLOCK TIME (SEC) =            0

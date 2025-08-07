@@ -6,8 +6,11 @@ import subprocess
 import time
 import traceback
 from itertools import product
+
 import gmsh
 import numpy as np
+import multiprocessing as mp
+import matplotlib.pyplot as plt
 
 
 def logger(func):
@@ -15,13 +18,12 @@ def logger(func):
 
     def wrapper(*args, **kwargs):
         start = time.time()
-        print(f"starting {func.__name__} ...", end="")
         try:
             result = func(*args, **kwargs)
-            print(f"\t{func.__name__} completed in {time.time() - start:.2f}s")
+            print(f"\t{func.__name__} for {args[0].directory.case_name} - {args[0].case_number} completed in {time.time() - start:.2f}s")
             return result
         except:
-            print(f"\t{func.__name__} failed to complete")
+            print(f"\t{func.__name__} for {args[0].directory.case_name} - {args[0].case_number} failed to complete")
             print(traceback.format_exc())
             return None
 
@@ -35,8 +37,10 @@ def run_subprocess(command, run_folder, log_file):
                 command, shell=True, check=True, cwd=run_folder, input='y', text=True, capture_output=True
                 )
         with open(log_file, 'a') as log:
-            log.write(process.stdout)
-            log.write(process.stderr)
+            log.write(f"--- LOG TIME : {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            log.write(f"--- COMMAND : {command}\n")
+            log.write(f"--- STDOUT ---\n{process.stdout}")
+            log.write(f"--- STDERR ---\n{process.stderr}")
     except subprocess.CalledProcessError as e:
         print(f"ERROR: Execution failed for command:\n{command}.")
         print(f"Return code: {e.returncode}")
@@ -47,7 +51,6 @@ def run_subprocess(command, run_folder, log_file):
             log.write(f"Return code: {e.returncode}\n")
             log.write(f"--- STDOUT ---\n{e.stdout}\n")
             log.write(f"--- STDERR ---\n{e.stderr}\n")
-    return process
 
 
 def save_object(obj, path, method):
@@ -77,11 +80,22 @@ def load_object(path, method):
 
 # Default configuration
 RVE_DEFAULTS = {
-        "core_type"          : "ZPR", "mql": [True, True], "nl": [1, 1], "theta": np.deg2rad(60.0),
-        "chevron_wall_length": 0.0125, "chevron_thickness": 0.001, "chevron_pitch": 0.006, "rib_thickness": 0.001,
-        "core_thickness"     : 0.011, "facesheet_thickness": 0.0008, "core_material": (396e6, 0.48),
-        "facesheet_material" : (22.9e6, 0.48), "element_type": "C3D8R", "element_size": 0.001
+        "core_type"          : "ZPR",
+        "mirror_symmetry"    : [True, True],
+        "num_tiles"          : [1, 1],
+        "chevron_angle"      : np.deg2rad(60.0),
+        "chevron_wall_length": 0.0125,
+        "chevron_thickness"  : 0.001,
+        "chevron_pitch"      : 0.006,
+        "rib_thickness"      : 0.001,
+        "core_thickness"     : 0.011,
+        "facesheet_thickness": 0.0008,
+        "core_material"      : (396e6, 0.48),
+        "facesheet_material" : (22.9e6, 0.48),
+        "element_type"       : "C3D8R",
+        "element_size"       : 0.001
         }
+
 
 class Directory:
     def __init__(self, case_name: str = "default_case"):
@@ -98,10 +112,11 @@ class Directory:
         for sub in ["inp", "data"]:
             os.makedirs(os.path.join(self.case_folder, sub, "serialised"), exist_ok=True)
 
+
 class RVE:
     def __init__(self, variables=None, directory=None, case_number: int = 0):
 
-        # default directory
+        # directory setup
         if directory is None: directory = Directory()
 
         # loading default variables
@@ -115,71 +130,68 @@ class RVE:
         self.directory = directory
         self.case_number = case_number
 
-        # ZPR core specific variables
-        if self.var["core_type"] == "ZPR": self.zpr_derived_variables()
-
-        # save derived variables
-        keys_to_save = ["qlx", "qly", "qlz", "core_area_ratio", "lx", "ly"]
-        save_object(
-                {key: self.derived_var[key] for key in keys_to_save},
-                os.path.join(directory.case_folder, "input", f"{case_number}_UC_derived"), method="json"
-                )
-
-    def zpr_derived_variables(self):
+    def zpr_core_geometry(self):
         # Compute derived variables (example for ZPR core)
         self.derived_var = {}
 
         # Check for chevron overlap
-        if self.var['chevron_pitch'] < self.var["chevron_thickness"] / (np.cos(self.var["theta"])) and self.var["mql"][1]:
-            raise("Error: Tips of adjecent chevrons intersect. \nAdvice: Increase chevron_pitch on decrease chevron_thickness" )
+        if self.var['chevron_pitch'] < self.var["chevron_thickness"] / (np.cos(self.var["chevron_angle"])) and \
+                self.var["mirror_symmetry"][
+                    1]:
+            raise (
+                    "Error: Tips of adjecent chevrons intersect. \nAdvice: Increase chevron_pitch on decrease chevron_thickness")
 
         # Compute derived geometric variables and store in self.derived
-        self.derived_var['qlx'] = self.var["chevron_wall_length"] * np.cos(self.var["theta"])
+        self.derived_var['qlx'] = self.var["chevron_wall_length"] * np.cos(self.var["chevron_angle"])
         self.derived_var['qly'] = self.var["chevron_pitch"] + self.var["chevron_wall_length"] * np.sin(
-                self.var["theta"]
+                self.var["chevron_angle"]
                 )
         self.derived_var['qlz'] = self.var["core_thickness"] / 2.0 + self.var["facesheet_thickness"]
         self.derived_var['core_area_ratio'] = (self.derived_var['qly'] * self.var["rib_thickness"] / 2.0 + (
                 self.var["chevron_wall_length"] - (self.var["rib_thickness"] / 2.0) / np.cos(
-                self.var["theta"]
+                self.var["chevron_angle"]
                 )) * self.var["chevron_thickness"]) / (self.derived_var['qlx'] * self.derived_var['qly'])
-        self.derived_var['lx'] = self.derived_var['qlx'] * (int(self.var["mql"][0]) + 1) * int(self.var["nl"][0])
-        self.derived_var['ly'] = self.derived_var['qly'] * (int(self.var["mql"][1]) + 1) * int(self.var["nl"][1])
+        self.derived_var['lx'] = self.derived_var['qlx'] * (int(self.var["mirror_symmetry"][0]) + 1) * int(
+                self.var["num_tiles"][0]
+                )
+        self.derived_var['ly'] = self.derived_var['qly'] * (int(self.var["mirror_symmetry"][1]) + 1) * int(
+                self.var["num_tiles"][1]
+                )
 
         # Define node coordinates using lists
         self.derived_var["coordinates"] = {
                 "1"            : [-self.derived_var['qlx'], 0.0, -self.derived_var['qlz']], "2": [
                         -self.derived_var['qlx'], -self.derived_var['qly'] + 0.5 * self.var["chevron_pitch"] + self.var[
-                            "rib_thickness"] / 2 * np.tan(self.var["theta"]) + self.var[
-                                                      "chevron_thickness"] / 2 / np.cos(self.var["theta"]),
+                            "rib_thickness"] / 2 * np.tan(self.var["chevron_angle"]) + self.var[
+                                                      "chevron_thickness"] / 2 / np.cos(self.var["chevron_angle"]),
                         -self.derived_var['qlz'],
                         ], "3" : [
                         -self.derived_var['qlx'], -self.derived_var['qly'] + 0.5 * self.var["chevron_pitch"] + self.var[
-                            "rib_thickness"] / 2 * np.tan(self.var["theta"]) - self.var[
-                                                      "chevron_thickness"] / 2 / np.cos(self.var["theta"]),
+                            "rib_thickness"] / 2 * np.tan(self.var["chevron_angle"]) - self.var[
+                                                      "chevron_thickness"] / 2 / np.cos(self.var["chevron_angle"]),
                         -self.derived_var['qlz'],
                         ], "4" : [-self.derived_var['qlx'], -self.derived_var['qly'], -self.derived_var['qlz']], "5": [
                         -self.derived_var['qlx'] + self.var["rib_thickness"] / 2, 0.0, -self.derived_var['qlz']
                         ], "6" : [
                         -self.derived_var['qlx'] + self.var["rib_thickness"] / 2,
                         -self.derived_var['qly'] + 0.5 * self.var["chevron_pitch"] + self.var[
-                            "rib_thickness"] / 2 * np.tan(self.var["theta"]) + self.var[
-                            "chevron_thickness"] / 2 / np.cos(self.var["theta"]), -self.derived_var['qlz'],
+                            "rib_thickness"] / 2 * np.tan(self.var["chevron_angle"]) + self.var[
+                            "chevron_thickness"] / 2 / np.cos(self.var["chevron_angle"]), -self.derived_var['qlz'],
                         ], "7" : [
                         -self.derived_var['qlx'] + self.var["rib_thickness"] / 2,
                         -self.derived_var['qly'] + 0.5 * self.var["chevron_pitch"] + self.var[
-                            "rib_thickness"] / 2 * np.tan(self.var["theta"]) - self.var[
-                            "chevron_thickness"] / 2 / np.cos(self.var["theta"]), -self.derived_var['qlz'],
+                            "rib_thickness"] / 2 * np.tan(self.var["chevron_angle"]) - self.var[
+                            "chevron_thickness"] / 2 / np.cos(self.var["chevron_angle"]), -self.derived_var['qlz'],
                         ], "8" : [
                         -self.derived_var['qlx'] + self.var["rib_thickness"] / 2, -self.derived_var['qly'],
                         -self.derived_var['qlz']
                         ], "9" : [0.0, 0.0, -self.derived_var['qlz']], "10": [
                         0.0, -0.5 * self.var["chevron_pitch"] + self.var["chevron_thickness"] / 2 / np.cos(
-                                self.var["theta"]
+                                self.var["chevron_angle"]
                                 ), -self.derived_var['qlz'],
                         ], "11": [
                         0.0, -0.5 * self.var["chevron_pitch"] - self.var["chevron_thickness"] / 2 / np.cos(
-                                self.var["theta"]
+                                self.var["chevron_angle"]
                                 ), -self.derived_var['qlz'],
                         ], "12": [0.0, -self.derived_var['qly'], -self.derived_var['qlz']],
                 }
@@ -210,7 +222,17 @@ class RVE:
         # Define core end surface box for extruding where [part:[min:[x_node, y_node], max:[x_node, y_node]] ]
         self.derived_var["core_end_surface_box"] = [[[4, 4], [5, 5]], [[7, 7], [10, 10]]]
 
-    @logger
+    def eval_derived_variables(self):
+        # ZPR core specific variables
+        if self.var["core_type"] == "ZPR": self.zpr_core_geometry()
+
+        # save derived variables
+        keys_to_save = ["qlx", "qly", "qlz", "core_area_ratio", "lx", "ly"]
+        save_object(
+                {key: self.derived_var[key] for key in keys_to_save},
+                os.path.join(self.directory.case_folder, "input", f"{self.case_number}_UC_derived"), method="json"
+                )
+
     def generate_mesh(self):
         """
         Generates the geometry and mesh for the RVE using GMSH.
@@ -467,7 +489,8 @@ class RVE:
                             e[0], e[1] + offset_entity, m[e][1][0] + offset_node, transformed_coords, )
 
                     nodes = (
-                        reorder_nodes(e, m, tx, ty, tz) if all([mirror_step != [0, 0, 0], e[0] == 3]) else m[e][2][2])
+                            reorder_nodes(e, m, tx, ty, tz) if all([mirror_step != [0, 0, 0], e[0] == 3]) else m[e][2][
+                                2])
 
                     MESH.addElements(
                             e[0], e[1] + offset_entity, m[e][2][0], [t + offset_element for t in m[e][2][1]],
@@ -611,7 +634,7 @@ class RVE:
             # Mirroring repeating unit to create unit cell
             mirror_steps = []
             # Generate all mirror combinations for enabled axes, except the identity
-            axes = self.var["mql"] + [True]  # Z axis always mirrored
+            axes = self.var["mirror_symmetry"] + [True]  # Z axis always mirrored
             # For each axis, use [-1, 1] if enabled, else [1]
             options = [[-1, 1] if en else [1] for en in axes]
             for mirror in product(*options):
@@ -622,8 +645,8 @@ class RVE:
             CAD.synchronize()
 
             # Tessellating unit cell to create RVE
-            if self.var["nl"][0] > 1 or self.var["nl"][1] > 1:
-                tesselate(None, [self.var["nl"][0], self.var["nl"][1]])
+            if self.var["num_tiles"][0] > 1 or self.var["num_tiles"][1] > 1:
+                tesselate(None, [self.var["num_tiles"][0], self.var["num_tiles"][1]])
             CAD.synchronize()
 
             # Define physical groups
@@ -654,12 +677,11 @@ class RVE:
         create_cad()
         create_mesh()
 
-        # Show the model
-        if gmsh_popup: gmsh.fltk.run()
+        # Show the model, if needed
+        # gmsh.fltk.run()
 
         gmsh.finalize()
 
-    @logger
     def generate_inp(self):
 
         def read_mesh_data():
@@ -953,13 +975,12 @@ class RVE:
         # Write the complete Abaqus .inp file
         write_input_file(eqns)
 
-    @logger
     def run_abaqus(self, abaqus_path: str = "C:\\SIMULIA\\Commands\\abaqus.bat", num_core: int = 1):
         """ Runs the Abaqus analysis for the generated RVE model."""
         try:
             # Run the Abaqus analysis
             command = f"{abaqus_path} analysis double=both job={self.case_number}_RVE input={self.job_file} cpus={num_core} mp_mode=thread interactive"
-            self.abaqus_output_solver = run_subprocess(command, self.run_folder, self.log_file)
+            run_subprocess(command, self.run_folder, self.log_file)
         except:
             traceback.print_exc()
             with open(self.log_file, 'a') as f:
@@ -981,14 +1002,17 @@ class RVE:
                         ) as f:
                     f.write(f"ERROR: Cannot copy result file {ext} for case number {self.case_number}\n")
 
-    @logger
     def extract_abd_matrix(self, abaqus_path: str = "C:\\SIMULIA\\Commands\\abaqus.bat"):
         # Extract results using a Python script
         script_file = os.path.abspath("abaqus_script_to_extract_ABD.py")
         command = f"{abaqus_path} python {script_file} -- {self.directory.case_folder} {self.case_number}"
-        self.abaqus_output_extraction = run_subprocess(command, self.run_folder, self.log_file)
+        run_subprocess(command, self.run_folder, self.log_file)
 
+    @logger
     def analysis(self):
+        print(f"\tstarting {self.directory.case_name} - {self.case_number}")
+        # Initialise geometry
+        self.eval_derived_variables()
         # Generate mesh
         self.generate_mesh()
         # Generate input file
@@ -1002,39 +1026,99 @@ class RVE:
         # Extract ABD matrix
         self.extract_abd_matrix()
 
-        # Print log file to screen
-        if view_log: 
-            with open(self.log_file, 'r') as f: 
-                print(f.read())
+def plot_stiffness_bars(directory, jobs):
+    """
+    Plots bar charts of in-plane and out-of-plane stiffness parameters for each job.
+    """
+    # Prepare data structure
+    params = ["v21", "v12", "E1", "E2", "G12"]
+    planes = ["In-plane", "Out-of-plane"]
+    plot_data = {plane: {param: [] for param in params} for plane in planes}
+    case_numbers = []
 
+    # Load data
+    for job in jobs:
+        case_number = job.case_number
+        abd = load_object(os.path.join(directory.case_folder, "data", f"{case_number}_stiffness"), "json")
+        tp = load_object(os.path.join(directory.case_folder, "input", f"{case_number}_UC_derived"), "json")["qlz"]
+        case_numbers.append(case_number)
+        # In-plane (A)
+        plot_data["In-plane"]["v21"].append(abd["A12"] / abd["A11"])
+        plot_data["In-plane"]["v12"].append(abd["A12"] / abd["A22"])
+        plot_data["In-plane"]["E1"].append((abd["A11"] * (1 - (abd["A12"] ** 2) / (abd["A11"] * abd["A22"]))) / tp)
+        plot_data["In-plane"]["E2"].append((abd["A22"] * (1 - (abd["A12"] ** 2) / (abd["A11"] * abd["A22"]))) / tp)
+        plot_data["In-plane"]["G12"].append(abd["A66"] / tp)
+        # Out-of-plane (D)
+        plot_data["Out-of-plane"]["v21"].append(abd["D12"] / abd["D11"])
+        plot_data["Out-of-plane"]["v12"].append(abd["D12"] / abd["D22"])
+        plot_data["Out-of-plane"]["E1"].append((abd["D11"] * (1 - (abd["D12"] ** 2) / (abd["D11"] * abd["D22"]))) * 12 / (tp ** 3))
+        plot_data["Out-of-plane"]["E2"].append((abd["D22"] * (1 - (abd["D12"] ** 2) / (abd["D11"] * abd["D22"]))) * 12 / (tp ** 3))
+        plot_data["Out-of-plane"]["G12"].append(abd["D66"] / (tp ** 3))
 
+    # Tile plot with shared axes for columns (x) and rows (y)
+    fig, axes = plt.subplots(len(params), len(planes), figsize=(8, 15), sharex='col', sharey='row')
+    for i, param in enumerate(params):
+        for j, plane in enumerate(planes):
+            ax = axes[i, j]
+            ax.bar(case_numbers, plot_data[plane][param])
+            if i == 0:
+                ax.set_title(plane)
+            if j == 0:
+                ax.set_ylabel(param)
+            if i == len(params) - 1:
+                ax.set_xlabel("Case Number")
+            ax.set_xticks(case_numbers)
+
+    # Formatting
+    plt.tight_layout(pad=2.0)
+    for i, param in enumerate(params):
+        for j, plane in enumerate(planes):
+            ax = axes[i, j]
+            # Set font sizes
+            ax.tick_params(axis='both', which='major', labelsize=12)
+            ax.title.set_fontsize(14)
+            ax.xaxis.label.set_fontsize(14)
+            ax.yaxis.label.set_fontsize(14)
+            # Add grid
+            ax.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+            # Remove top/right spines
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+    fig.subplots_adjust(hspace=0.3, wspace=0.2)
+    fig.patch.set_facecolor('white')
+    plt.tight_layout()
+
+    # Save the figure
+    fig.savefig(os.path.join(directory.case_folder, "fig", "equivalent_stiffness.png"), bbox_inches="tight", dpi=300)
+
+def run_analysis(job):
+    job.analysis()
 
 if __name__ == "__main__":
-    gmsh_popup = False  
-    view_log = False
 
-    sweep_cases = {
-        "mql":[
-            [True, True], # symmetric across x and y axes
-            [True, False] # symmetric across only x-axis
-        ]
-    }
+    # cases to analysis
+    example = [
+            # default case: accordion core with x and y symmetry of quarter cell unit
+            {},
+            # accordion core only x symmetry of quarter cell unit so 2 units along y direction for size consistency
+            {"mirror_symmetry": [True, False], "num_tiles": [1, 2]}
+            ]
 
+    # Create a directory for the case
+    case_name = "example"
+    directory = Directory(case_name)
+
+    # Designs within the case
     job_queue = []
-    # Create an instance of the RVE class
-    for key, sweep in sweep_cases.items():
-        # Create a directory for the case
-        case_name = f"{key}_sweep"
-        directory = Directory(case_name)
-
-        # Designs within the case
-        for case_number, design in enumerate(sweep):
-            # case variables
-            case_var = {key: design}
-            # running analysis
-            job_queue.append(RVE(case_var, directory, case_number))
+    for case_number, design in enumerate(example):
+        # running analysis
+        job_queue.append(RVE(design, directory, case_number))
 
     # Run the analysis for each job in the queue
-    for job in job_queue:
-        print(f"--- Running case name {job.directory.case_name}, case number: {job.case_number} ---")
-        job.analysis()
+    num_cpus = min(mp.cpu_count(), len(job_queue))
+    print(f"--- running {num_cpus} parallel jobs ---")
+    with mp.Pool(num_cpus) as pool:
+        pool.map(run_analysis, job_queue)
+
+    # plot results
+    plot_stiffness_bars(directory, job_queue)

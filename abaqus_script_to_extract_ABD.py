@@ -23,7 +23,7 @@ def data_extraction(case_folder, case_number):
     Strain_Reference_Index = {"E11":0,"E22":1,"E12":2,"K11":3,"K22":4,"K12":5}
 
     # collector
-    STIFFNESS={"%s%i"%(matrix,term):[] for matrix in ["A", "B", "D"] for term in [11, 12, 16, 22, 26, 66]}
+    STIFFNESS={"%s%i"%(matrix,term):None for matrix in ["A", "B", "D"] for term in [11, 12, 16, 22, 26, 66]}
     STIFFNESS_INDEX= {
         "A11":[0,0], "A12":[0,1], "A16":[0,2],
                      "A22":[1,1], "A26":[1,2],
@@ -90,7 +90,7 @@ def data_extraction(case_folder, case_number):
 
                 # collecting the ABD matrix
                 for term in STIFFNESS.keys():
-                    STIFFNESS[term].append(ABD[STIFFNESS_INDEX[term][0],STIFFNESS_INDEX[term][1]])
+                    STIFFNESS[term] = ABD[STIFFNESS_INDEX[term][0],STIFFNESS_INDEX[term][1]]
 
         # save data
         data_file = os.path.join(case_folder, "data", "%i_stiffness.json"%(case_number))
