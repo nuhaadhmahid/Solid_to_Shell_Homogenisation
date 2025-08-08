@@ -1,0 +1,28 @@
+{
+    "core_type": "ppr",
+    "mirror_symmetry": [
+        true,
+        true
+    ],
+    "num_tiles": [
+        1,
+        1
+    ],
+    "chevron_angle": 1.0471975511965976,
+    "chevron_wall_length": 0.0125,
+    "chevron_thickness": 0.001,
+    "chevron_pitch": 0.006,
+    "rib_thickness": 0.001,
+    "core_thickness": 0.011,
+    "facesheet_thickness": 0.0008,
+    "core_material": [
+        396000000.0,
+        0.48
+    ],
+    "facesheet_material": [
+        22900000.0,
+        0.48
+    ],
+    "element_type": "C3D8R",
+    "element_size": 0.001
+}

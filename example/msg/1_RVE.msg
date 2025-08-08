@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2023                                  Date 07-Aug-2025   Time 19:30:11
+   Abaqus 2023                                  Date 08-Aug-2025   Time 14:39:42
    For use by BRISTOL under license from Dassault Systemes or its subsidiary.
 
                                                                                  
@@ -89,8 +89,8 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =     0.80    
+       USER TIME (SEC)      =      1.0    
        SYSTEM TIME (SEC)    =     0.10    
-       TOTAL CPU TIME (SEC) =     0.90    
-       WALLCLOCK TIME (SEC) =            0
+       TOTAL CPU TIME (SEC) =      1.1    
+       WALLCLOCK TIME (SEC) =            1
        MEMORY PEAK (GB)     =            0
