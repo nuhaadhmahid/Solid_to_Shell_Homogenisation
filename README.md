@@ -1,9 +1,12 @@
-
-This code models a representative volume element (RVE) of an accordion core sandwich panel. The panel exhibits directional mechanical properties: it is flexible along one axis and stiff along the perpendicular axis, making it suitable for applications requiring anisotropic behavior.
+This script provides a second-order homogenisation scheme for a cellular sandwich panel. The representative volume element (RVE) of the panel is modelled using solid elements with different material properties for the core and the facesheet.
 
 <img src="RVE.png" alt="Representative volume element of the panel" width="700"/>
 
-As the finite element analysis of the full-scale panel is computationally expensive, it restricts the analysis of large structures with such complex underlying panels. This code homogenizes the mechanical response of the RVE to an equivalent shell stiffness matrix. The large structure can then be modeled as a shell surface with the homogenized stiffness matrix representing the panel's stiffness properties.
+As the feature size (e.g., chevron) of the unit cell is small, the RVE model requires a fine mesh to produce accurate results. Hence, any analysis of such a sandwich panel is computationally expensive for large structures.
+
+An alternative approach is multi-scale modelling, where the equivalent shell stiffness of the sandwich panel is evaluated through a homogenisation scheme, followed by the analysis of the large structure by representing it as a shell surface with the homogenised shell stiffness properties.
+
+This script creates a symmetric mesh for the RVE model using [GMSH](https://gitlab.onelab.info/gmsh/gmsh), applies periodic boundary conditions on the lateral face nodes, and evaluates the equivalent shell stiffness of the panel by solving the boundary value problem using linear perturbations in Abaqus.
 
 If you use this code in your research or publications, please cite it as follows:
 
