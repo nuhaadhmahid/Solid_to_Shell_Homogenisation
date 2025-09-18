@@ -6,7 +6,7 @@ As the feature size (e.g., chevron) of the unit cell is small, the RVE model req
 
 An alternative approach is multi-scale modelling, where the equivalent shell stiffness of the sandwich panel is evaluated through a homogenisation scheme, followed by the analysis of the large structure by representing it as a shell surface with the homogenised shell stiffness properties.
 
-This script creates a symmetric mesh for the RVE model using [GMSH](https://gitlab.onelab.info/gmsh/gmsh), applies periodic boundary conditions on the lateral face nodes, and evaluates the equivalent shell stiffness of the panel by solving the boundary value problem using linear perturbations in Abaqus.
+This script creates a symmetric mesh for the RVE model using [GMSH](https://gmsh.info), applies periodic boundary conditions on the lateral face nodes, and evaluates the equivalent shell stiffness of the panel by solving the boundary value problem using linear perturbations in Abaqus.
 
 If you use this code in your research or publications, please cite it as follows:
 
